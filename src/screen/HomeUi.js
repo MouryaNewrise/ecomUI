@@ -55,22 +55,6 @@ const HomeUi = ({navigation}) => {
     }
   };
 
-  const searchData = text => {
-    if (text) {
-      const newData = collection.filter(item => {
-        const itemData = item.category
-          ? item.category.toUpperCase()
-          : ''.toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-      setFilterData(newData);
-      setSearch(text);
-    } else {
-      setFilterData(collection);
-      setSearch(text);
-    }
-  };
   const filteredPersons = collection.filter(person => {
     return (
       person.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -96,7 +80,10 @@ const HomeUi = ({navigation}) => {
             </TouchableOpacity>
             <TextInput
               style={styles.searchContainer}
-              onChangeText={() => searchData()}
+              onChangeText={() => {
+                [filteredPersons];
+              }}
+              asdfdsa
               placeholder="Search..."
               placeholderTextColor={Colors.darkPlaceHoldColor}
             />
