@@ -18,11 +18,7 @@ const SocialIcon = () => {
             <TouchableOpacity onPress={() => toggleIcon()}>
               <Text style={styles.arrowIconStyle}>
                 {' '}
-                <AntDesign
-                  name={'arrowright'}
-                  size={30}
-                  color={Colors.primary}
-                />
+                <AntDesign name={'arrowright'} size={30} />
               </Text>
             </TouchableOpacity>
           </View>
@@ -71,12 +67,12 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   groupIcon: {
-    paddingHorizontal: 18,
+    paddingHorizontal: 16,
     justifyContent: 'center',
   },
   arrowIconStyle: {
-    backgroundColor: Colors.borderColor,
+    backgroundColor: Colors.white,
     borderRadius: 50,
-    padding: 2,
+    elevation: 10,
   },
 });

@@ -193,12 +193,13 @@ const styles = StyleSheet.create({
   backButton: {
     textAlign: 'center',
     padding: 10,
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.white,
     borderRadius: 50,
     width: 50,
     height: 50,
     alignItems: 'flex-end',
     marginTop: -10,
+    elevation: 10,
   },
   upiMethod: {
     backgroundColor: Colors.cardColor,

@@ -61,7 +61,7 @@ const MyTabCart = ({navigation}) => {
                 </View>
               </View>
 
-              <View style={{flexDirection: 'row', marginHorizontal: -10}}>
+              <View style={{flexDirection: 'column'}}>
                 <TouchableOpacity>
                   <Text style={styles.deleteView}>
                     <AntDesign
@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     borderRadius: 10,
     fontWeight: '500',
+    marginBottom: 10,
   },
   homeText: {
     backgroundColor: Colors.cardColor,

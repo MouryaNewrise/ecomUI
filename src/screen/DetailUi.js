@@ -24,7 +24,6 @@ const DetailUi = ({navigation}) => {
       .then(res => res.json())
       .then(json => {
         setData(json);
-        // console.log('json', json);
       });
   }, []);
   return (
@@ -150,8 +149,8 @@ const styles = StyleSheet.create({
     fontFamily: fonts.regular,
     fontWeight: '700',
     color: Colors.black,
-    fontSize: 25,
-    marginVertical: 10,
+    fontSize: 22,
+    marginVertical: 5,
   },
   imageView: {
     width: width / 5 - 100,
@@ -169,32 +168,31 @@ const styles = StyleSheet.create({
   imageViewContainer: {
     backgroundColor: Colors.backgroundGray,
     height: 270,
-    // textAlign: 'center',
     borderRadius: 10,
   },
   iconStyContainer: {
-    // position: 'absolute',
     textAlign: 'right',
     backgroundColor: Colors.backgroundGray,
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 50,
     marginVertical: 10,
+    width: 50,
+    elevation: 12,
   },
   titleStyle: {
     fontFamily: fonts.regular,
     color: Colors.lightBlack,
-    // textAlign: 'center',
   },
   priceStyle: {
     fontFamily: fonts.medium,
     color: Colors.black,
     fontSize: 14,
-    // textAlign: 'center',
   },
   addCart: {
-    backgroundColor: Colors.lightBlack,
-    padding: 10,
+    backgroundColor: Colors.cardColor,
+    paddingVertical: 5,
     borderRadius: 10,
+    marginTop: 8,
   },
   addCartText: {
     color: Colors.white,
@@ -203,37 +201,3 @@ const styles = StyleSheet.create({
     fontFamily: fonts.regular,
   },
 });
-
-// import {FlatList, StyleSheet, Text, View} from 'react-native';
-// import React, {useEffect, useState} from 'react';
-
-// const DetailUi = () => {
-//   const [data, setData] = useState();
-//   useEffect(() => {
-//     fetch('https://fakestoreapi.com/products/1')
-//       .then(res => res.json())
-//       .then(json => {
-//         setData(json);
-//         console.log('json', json);
-//       });
-//   }, []);
-//   return (
-//     <View>
-//       <Text>Product Details</Text>
-//       {/* {data.map(({item}) => {
-//         return (
-//           <>
-//             <View>
-//               <Text>{item.category}</Text>
-//             </View>
-//           </>
-//         );
-//       })} */}
-//       <Text>{data.description}</Text>
-//     </View>
-//   );
-// };
-
-// export default DetailUi;
-
-// const styles = StyleSheet.create({});

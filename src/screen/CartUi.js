@@ -61,7 +61,7 @@ const CartUi = ({navigation}) => {
                 </View>
               </View>
 
-              <View style={{flexDirection: 'row', marginHorizontal: -10}}>
+              <View style={{flexDirection: 'column'}}>
                 <TouchableOpacity>
                   <Text style={styles.deleteView}>
                     <AntDesign
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginHorizontal: 20,
   },
-  imageStyle: {width: 150, height: 150, borderRadius: 100},
+  imageStyle: {width: 150, height: 200, borderRadius: 10},
   itemView: {width: '50%', paddingVertical: 10, marginRight: 10},
   titleStyle: {fontFamily: fonts.semiBold, color: Colors.black},
   desStyle: {fontFamily: fonts.medium, color: Colors.lightBlack},
@@ -132,6 +132,8 @@ const styles = StyleSheet.create({
     color: Colors.white,
     borderRadius: 10,
     fontWeight: '500',
+    marginBottom: 10,
+    textAlign: 'center',
   },
   homeText: {
     backgroundColor: Colors.cardColor,
@@ -140,6 +142,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontWeight: '500',
     marginHorizontal: 3,
+    textAlign: 'center',
   },
   paymentContainer: {
     flexDirection: 'row',

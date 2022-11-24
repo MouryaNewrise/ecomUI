@@ -122,7 +122,8 @@ const styles = StyleSheet.create({
   eyeContainer: {
     position: 'absolute',
     marginTop: 380,
-    marginLeft: 330,
+    marginLeft: 310,
+    // marginHorizontal: 20,
   },
   containerIcon: {
     alignItems: 'center',
