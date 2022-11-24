@@ -128,45 +128,47 @@ const HomeUi = ({navigation}) => {
           />
         </View>
         <Text style={styles.newCollection}>New Collection</Text>
-        <FlatList
-          data={collection}
-          numColumns={2}
-          idExtractor={id => {
-            id.id;
-          }}
-          renderItem={({item = item}) => {
-            return (
-              <ScrollView style={styles.collectionView}>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('DetailUi');
-                  }}
-                  style={styles.spaceBetween}
-                >
-                  <View style={styles.imageViewContainer}>
-                    <Image
-                      style={styles.imageView}
-                      source={{uri: item.image}}
-                    />
-                  </View>
-                  <View style={styles.iconStyContainer}>
-                    <MaterialIcons
-                      name="favorite-border"
-                      size={20}
-                      color={clicked ? Colors.lightBlack : Colors.cardColor}
-                    />
-                  </View>
-                </TouchableOpacity>
+        <View style={styles.FlatListView}>
+          <FlatList
+            data={collection}
+            numColumns={2}
+            idExtractor={id => {
+              id.id;
+            }}
+            renderItem={({item = item}) => {
+              return (
+                <ScrollView style={styles.collectionView}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('DetailUi');
+                    }}
+                    style={styles.spaceBetween}
+                  >
+                    <View style={styles.imageViewContainer}>
+                      <Image
+                        style={styles.imageView}
+                        source={{uri: item.image}}
+                      />
+                    </View>
+                    <View style={styles.iconStyContainer}>
+                      <MaterialIcons
+                        name="favorite-border"
+                        size={20}
+                        color={clicked ? Colors.lightBlack : Colors.cardColor}
+                      />
+                    </View>
+                  </TouchableOpacity>
 
-                <Text style={styles.categoryStyle}>{item.category}</Text>
-                <Text style={styles.titleStyle}>
-                  {item.title == 25 ? item.title : item.title.slice(0, 20)}
-                </Text>
-                <Text style={styles.priceStyle}>₹ {item.price}</Text>
-              </ScrollView>
-            );
-          }}
-        />
+                  <Text style={styles.categoryStyle}>{item.category}</Text>
+                  <Text style={styles.titleStyle}>
+                    {item.title == 25 ? item.title : item.title.slice(0, 20)}
+                  </Text>
+                  <Text style={styles.priceStyle}>₹ {item.price}</Text>
+                </ScrollView>
+              );
+            }}
+          />
+        </View>
       </View>
     </>
   );
@@ -279,5 +281,8 @@ const styles = StyleSheet.create({
   },
   headerFlex: {
     flexDirection: 'row-reverse',
+  },
+  FlatListView: {
+    marginBottom: 100,
   },
 });

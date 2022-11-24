@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, ScrollView, StyleSheet, Dimensions} from 'react-native';
 import ImagesSwiper from 'react-native-image-swiper';
+import {Colors} from '../../assets/Assets';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -12,20 +13,18 @@ const customImg = [
 
 const Banner = () => {
   return (
-    <View style={styles.container}>
-      <View style={{borderRadius: 20}}>
-        <ScrollView style={{borderRadius: 25}}>
-          <ImagesSwiper
-            images={customImg}
-            autoplay={false}
-            autoplayTimeout={1.5}
-            showsPagination={true}
-            width={width}
-            height={width / 2 - 10}
-          />
-        </ScrollView>
+    <>
+      <View style={styles.container}>
+        <ImagesSwiper
+          images={customImg}
+          autoplay={true}
+          autoplayTimeout={2}
+          showsPagination={true}
+          width={width}
+          height={width / 5 - 10}
+        />
       </View>
-    </View>
+    </>
   );
 };
 
@@ -33,12 +32,8 @@ export default Banner;
 
 const styles = StyleSheet.create({
   container: {
-    margin: 20,
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    marginTop: 30,
-    marginBottom: 10,
+    backgroundColor: Colors.darkPrimary,
+    width: '100%',
+    height: width / 4.5 - 10,
   },
 });

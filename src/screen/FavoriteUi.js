@@ -32,7 +32,7 @@ const FavoriteUi = ({navigation}) => {
             <Text style={styles.priceStyle}>₹ 653</Text>
           </View>
 
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', marginHorizontal: -12}}>
             <TouchableOpacity>
               <Text style={styles.deleteStyle}>
                 <AntDesign name="delete" size={20} color={Colors.secondary} />

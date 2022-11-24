@@ -7,6 +7,7 @@ import SettingUi from '../screen/SettingUi';
 import AntDesign from 'react-native-vector-icons';
 import {Colors} from '../assets/Assets';
 import CustomDrawer from './CustomDrawer';
+import ViewOrder from '../screen/ViewOrder';
 
 const Drawer = createDrawerNavigator();
 
@@ -40,11 +41,11 @@ export default function MyDrawer() {
         name="SignUp/SignIn"
         component={RegisterUi}
       />
-      {/* <Drawer.Screen
-        options={{headerShown: false}}
+      <Drawer.Screen
+        // options={{headerShown: false}}
         name="View Order"
         component={ViewOrder}
-      /> */}
+      />
       <Drawer.Screen
         options={{headerShown: false}}
         name="Logout"

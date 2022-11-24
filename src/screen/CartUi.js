@@ -11,13 +11,13 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Colors, fonts} from '../assets/Assets';
-import Header from '../components/Layout/Header';
+import SocialIcon from '../components/Layout/SocialIcon';
 
 const CartUi = ({navigation}) => {
   const [count, setCount] = useState(0);
   return (
     <View>
-      <Header />
+      <SocialIcon />
       <View style={{height: 600}}>
         <Text style={styles.myCartText}>My Cart</Text>
         <ScrollView>
@@ -34,9 +34,9 @@ const CartUi = ({navigation}) => {
 
             <View style={styles.itemView}>
               <View style={{height: 110}}>
-                <Text style={styles.titleStyle}>Title</Text>
-                <Text style={styles.desStyle}>Description</Text>
-                <Text style={styles.priceStyle}>price</Text>
+                <Text style={styles.titleStyle}>title providing</Text>
+                <Text style={styles.desStyle}>eCommerce store with</Text>
+                <Text style={styles.priceStyle}>₹ 653</Text>
 
                 <View style={styles.btnContainer}>
                   <TouchableOpacity onPress={() => setCount(count + 1)}>
@@ -61,7 +61,7 @@ const CartUi = ({navigation}) => {
                 </View>
               </View>
 
-              <View style={{flexDirection: 'row'}}>
+              <View style={{flexDirection: 'row', marginHorizontal: -10}}>
                 <TouchableOpacity>
                   <Text style={styles.deleteView}>
                     <AntDesign

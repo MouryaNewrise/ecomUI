@@ -12,12 +12,13 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Colors, fonts} from '../assets/Assets';
 import Header from '../components/Layout/Header';
+import SocialIcon from '../components/Layout/SocialIcon';
 
 const MyTabCart = ({navigation}) => {
   const [count, setCount] = useState(0);
   return (
     <View>
-      <Header />
+      <SocialIcon />
       <View style={{height: 600}}>
         <Text style={styles.myCartText}>My Cart</Text>
         <ScrollView>
@@ -60,7 +61,7 @@ const MyTabCart = ({navigation}) => {
                 </View>
               </View>
 
-              <View style={{flexDirection: 'row'}}>
+              <View style={{flexDirection: 'row', marginHorizontal: -10}}>
                 <TouchableOpacity>
                   <Text style={styles.deleteView}>
                     <AntDesign
@@ -81,6 +82,22 @@ const MyTabCart = ({navigation}) => {
             </View>
           </View>
         </ScrollView>
+        <View style={styles.paymentContainer}>
+          <Text style={styles.totalStyle}>Total : ₹653</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('MakePayment')}
+            style={styles.makePayment}
+          >
+            <Text style={{color: Colors.white}}>
+              <MaterialCommunityIcons
+                name={'cards'}
+                color={Colors.white}
+                size={25}
+              />
+              Make Payment
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -130,5 +147,25 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     color: Colors.black,
+  },
+  paymentContainer: {
+    flexDirection: 'row',
+    backgroundColor: Colors.backgroundGray,
+    height: 100,
+    width: '100%',
+    justifyContent: 'space-between',
+    padding: 25,
+    borderTopRightRadius: 25,
+    borderTopLeftRadius: 25,
+    marginBottom: -30,
+  },
+  totalStyle: {fontFamily: fonts.bold, fontSize: 16, fontWeight: '700'},
+  makePayment: {
+    backgroundColor: Colors.cardColor,
+    padding: 5,
+    borderRadius: 10,
+    fontWeight: '500',
+    marginHorizontal: 3,
+    height: 40,
   },
 });
