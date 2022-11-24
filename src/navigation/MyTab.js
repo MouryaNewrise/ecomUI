@@ -8,7 +8,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FavoriteUi from '../screen/FavoriteUi';
 import ProfileUi from '../screen/ProfileUi';
 import {Colors} from '../assets/Assets';
-import MyDrawer from './MyDrawer';
 import MyTabCart from '../screen/MyTabCart';
 
 const Tab = createBottomTabNavigator();

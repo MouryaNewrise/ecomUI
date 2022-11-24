@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     borderRadius: 10,
     fontWeight: '500',
-    marginVertical: 10,
+    marginVertical: 5,
   },
   paymentMethod: {
     color: Colors.white,

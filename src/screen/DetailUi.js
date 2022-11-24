@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   },
   iconStyContainer: {
     textAlign: 'right',
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.white,
     padding: 10,
     borderRadius: 50,
     marginVertical: 10,

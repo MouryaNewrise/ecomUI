@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     padding: 25,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
-    marginBottom: -30,
+    // marginBottom: -30,
   },
   totalStyle: {fontFamily: fonts.bold, fontSize: 16, fontWeight: '700'},
   makePayment: {

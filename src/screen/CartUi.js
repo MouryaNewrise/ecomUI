@@ -147,12 +147,14 @@ const styles = StyleSheet.create({
   paymentContainer: {
     flexDirection: 'row',
     backgroundColor: Colors.backgroundGray,
-    height: 100,
+    height: 200,
     width: '100%',
     justifyContent: 'space-between',
     padding: 25,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
+    marginVertical: -50,
+    elevation: 12,
   },
   totalStyle: {fontFamily: fonts.bold, fontSize: 16, fontWeight: '700'},
   makePayment: {
