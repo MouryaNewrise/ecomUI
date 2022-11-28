@@ -81,7 +81,7 @@ const MakePayment = ({navigation}) => {
           </View>
           <View style={styles.rowDirection}>
             <Text style={styles.textStyle}>Product</Text>
-            <Text style={styles.textStyle}>MackBook Air</Text>
+            <Text style={styles.textStyle}>MackBook pro Air</Text>
           </View>
           <View style={styles.rowDirection}>
             <Text style={styles.textStyle}>VAT(20%)</Text>

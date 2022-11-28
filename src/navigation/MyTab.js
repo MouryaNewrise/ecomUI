@@ -9,12 +9,14 @@ import FavoriteUi from '../screen/FavoriteUi';
 import ProfileUi from '../screen/ProfileUi';
 import {Colors} from '../assets/Assets';
 import MyTabCart from '../screen/MyTabCart';
+// import {CustomTabBar} from '../navigation/CustomTabBar';
 
 const Tab = createBottomTabNavigator();
 
 const MyTab = () => {
   return (
     <Tab.Navigator
+      //   tabBar={props => <CustomTabBar {...props} />}
       initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: Colors.black,
@@ -40,6 +42,7 @@ const MyTab = () => {
             <MaterialIcons name="favorite-outline" color={color} size={size} />
           ),
           headerShown: false,
+          tabBarBadge: 1,
         }}
       />
       <Tab.Screen

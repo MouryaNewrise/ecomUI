@@ -11,10 +11,10 @@ import {
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {Colors, fonts} from '../assets/Assets';
-import axios from 'axios';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {getProducts} from '../services/ProductServices';
 
 const width = Dimensions.get('window').width;
 
@@ -30,6 +30,7 @@ const allCategory = [
   {
     id: '3',
     category: 'Jewelry',
+    key: 'jewelery',
   },
   {
     id: '4',
@@ -42,29 +43,13 @@ const allCategory = [
 ];
 const HomeUi = ({navigation}) => {
   const [collection, setCollection] = useState([]);
-  const [filterData, setFilterData] = useState([]);
-  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState('all');
   const [clicked, setClicked] = useState();
-  const collectionAxios = async () => {
-    try {
-      const res = await axios.get('https://fakestoreapi.com/products');
-      setCollection(res.data);
-      setFilterData(res.data);
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
-
-  const filteredPersons = collection.filter(person => {
-    return (
-      person.title.toLowerCase().includes(search.toLowerCase()) ||
-      person.category.toLowerCase().includes(search.toLowerCase())
-    );
-  });
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
-    collectionAxios();
-  }, []);
+    setCollection(getProducts);
+  });
   return (
     <>
       <View>
@@ -80,12 +65,9 @@ const HomeUi = ({navigation}) => {
             </TouchableOpacity>
             <TextInput
               style={styles.searchContainer}
-              onChangeText={() => {
-                [filteredPersons];
-              }}
-              asdfdsa
               placeholder="Search..."
               placeholderTextColor={Colors.darkPlaceHoldColor}
+              onChangeText={r => setSearch(r)}
             />
             <EvilIcons
               style={styles.searchIconStyle}
@@ -98,7 +80,12 @@ const HomeUi = ({navigation}) => {
       </View>
       <View style={styles.container}>
         <View style={styles.mainContainer}>
-          <Text style={[styles.AllTextStyle, styles.itemView]}>All</Text>
+          <Text
+            onPress={() => setFilter('all')}
+            style={[styles.AllTextStyle, styles.itemView]}
+          >
+            All
+          </Text>
           <FlatList
             data={allCategory}
             idExtractor={id => {
@@ -106,9 +93,12 @@ const HomeUi = ({navigation}) => {
             }}
             renderItem={({item}) => {
               return (
-                <View style={styles.itemView}>
+                <TouchableOpacity
+                  onPress={() => setFilter(item.key)}
+                  style={styles.itemView}
+                >
                   <Text style={styles.categoryView}>{item.category}</Text>
-                </View>
+                </TouchableOpacity>
               );
             }}
             horizontal={true}
@@ -117,17 +107,37 @@ const HomeUi = ({navigation}) => {
         <Text style={styles.newCollection}>New Collection</Text>
         <View style={styles.FlatListView}>
           <FlatList
-            data={collection}
+            data={
+              filter == 'all'
+                ? collection
+                : collection.filter(e => e.category == filter)
+            }
             numColumns={2}
             idExtractor={id => {
               id.id;
             }}
-            renderItem={({item = item}) => {
+            renderItem={({item, index}) => {
               return (
                 <ScrollView style={styles.collectionView}>
                   <TouchableOpacity
                     onPress={() => {
-                      navigation.navigate('DetailUi');
+                      setClicked([index]);
+                    }}
+                    style={styles.iconStyContainer}
+                  >
+                    <Text>
+                      <MaterialIcons
+                        name="favorite-border"
+                        size={20}
+                        color={
+                          clicked == index ? Colors.secondary : Colors.primary
+                        }
+                      />
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate('DetailUi', {itemId: item.id});
                     }}
                     style={styles.spaceBetween}
                   >
@@ -135,13 +145,6 @@ const HomeUi = ({navigation}) => {
                       <Image
                         style={styles.imageView}
                         source={{uri: item.image}}
-                      />
-                    </View>
-                    <View style={styles.iconStyContainer}>
-                      <MaterialIcons
-                        name="favorite-border"
-                        size={20}
-                        color={clicked ? Colors.lightBlack : Colors.cardColor}
                       />
                     </View>
                   </TouchableOpacity>
@@ -198,8 +201,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   imageView: {
-    width: width / 3 - 10,
-    height: width / 3,
+    width: width / 3,
+    height: 150,
     margin: 24,
   },
   collectionView: {

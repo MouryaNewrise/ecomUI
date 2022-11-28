@@ -27,7 +27,6 @@ const ProfileUi = () => {
             About designer Profile
           </Text>
         </View>
-
         <Entypo />
         <View style={{paddingHorizontal: 20}}>
           <View style={{marginTop: 50}}>

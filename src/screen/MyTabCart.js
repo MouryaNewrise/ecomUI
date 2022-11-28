@@ -1,21 +1,43 @@
 import {
+  Alert,
+  Button,
+  FlatList,
   Image,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Colors, fonts} from '../assets/Assets';
-import Header from '../components/Layout/Header';
 import SocialIcon from '../components/Layout/SocialIcon';
+import {fetchUserById} from '../redux/ProductSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {increment, decrement} from '../redux/ProductSlice';
 
 const MyTabCart = ({navigation}) => {
-  const [count, setCount] = useState(0);
+  const counter = useSelector(state => state.product.value);
+  //   const items = useSelector(state => state.items.items);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUserById());
+  });
+
+  //   console.log('first', items);
+  const handelIncrement = minus => {
+    if ((minus = counter)) {
+      dispatch(decrement());
+    } else {
+      Alert.alert('wrong');
+    }
+  };
+
   return (
     <View>
       <SocialIcon />
@@ -39,20 +61,20 @@ const MyTabCart = ({navigation}) => {
                 <Text style={styles.desStyle}>eCommerce store with</Text>
                 <Text style={styles.priceStyle}>₹ 653</Text>
                 <View style={styles.btnContainer}>
-                  <TouchableOpacity onPress={() => setCount(count + 1)}>
+                  <TouchableOpacity onPress={() => dispatch(handelIncrement())}>
                     <Text>
                       <AntDesign
-                        name="pluscircle"
+                        name="minuscircle"
                         color={Colors.blue}
                         size={25}
                       />
                     </Text>
                   </TouchableOpacity>
-                  <Text style={styles.countStyle}>{count}</Text>
-                  <TouchableOpacity onPress={() => setCount(count - 1)}>
+                  <Text style={styles.countStyle}>{counter}</Text>
+                  <TouchableOpacity onPress={() => dispatch(increment())}>
                     <Text>
                       <AntDesign
-                        name="minuscircle"
+                        name="pluscircle"
                         color={Colors.blue}
                         size={25}
                       />
@@ -83,7 +105,7 @@ const MyTabCart = ({navigation}) => {
           </View>
         </ScrollView>
         <View style={styles.paymentContainer}>
-          <Text style={styles.totalStyle}>Total : ₹653</Text>
+          <Text style={styles.totalStyle}>Total : ₹ {653 * counter}</Text>
           <TouchableOpacity
             onPress={() => navigation.navigate('MakePayment')}
             style={styles.makePayment}
@@ -121,7 +143,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginHorizontal: 20,
   },
-  imageStyle: {width: 150, height: 150, borderRadius: 100},
+  imageStyle: {
+    width: 150,
+    height: 200,
+    borderTopLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    borderRadius: 10,
+  },
   itemView: {width: '50%', paddingVertical: 10, marginRight: 10},
   titleStyle: {fontFamily: fonts.semiBold, color: Colors.black},
   desStyle: {fontFamily: fonts.medium, color: Colors.lightBlack},
@@ -158,7 +186,6 @@ const styles = StyleSheet.create({
     padding: 25,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
-    // marginBottom: -30,
   },
   totalStyle: {fontFamily: fonts.bold, fontSize: 16, fontWeight: '700'},
   makePayment: {

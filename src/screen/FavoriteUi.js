@@ -1,57 +1,100 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import {
+  Alert,
+  Button,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {Colors, fonts} from '../assets/Assets';
 import Header from '../components/Layout/Header';
+import {useSelector, useDispatch} from 'react-redux';
+import {getProducts} from '../services/ProductServices';
 
-const FavoriteUi = ({navigation}) => {
+const FavoriteUi = ({navigation, route}) => {
+  const product = useSelector(state => state.cart);
+  const dispatch = useDispatch();
+
+  const [FavData, setFavData] = useState([]);
+  useEffect(() => {
+    setFavData(getProducts());
+  });
+
   return (
     <View>
       <Header />
       <Text style={styles.myFavText}>My Favorite</Text>
-      <View style={styles.imageContainer}>
-        <View style={{paddingVertical: 10}}>
-          <Image
-            source={{
-              uri:
-                'https://www.shutterstock.com/image-photo/color-full-hanging-umbrella-260nw-213687085.jpg',
-            }}
-            style={styles.imageStyle}
-          />
-        </View>
+      <ScrollView style={{marginBottom: 150}}>
+        {FavData.map((data, index) => {
+          return (
+            <View key={index} style={{marginVertical: 10}}>
+              <View style={styles.imageContainer}>
+                <View style={{paddingVertical: 10}}>
+                  <Image
+                    source={{
+                      uri: data.image,
+                    }}
+                    style={styles.imageStyle}
+                  />
+                </View>
 
-        <View style={styles.dataView}>
-          <View style={{height: 110}}>
-            <Text style={styles.titleStyle}>Something where you </Text>
-            <Text style={styles.desStyle}>
-              your product in an eCommerce store with a title providing all the
-              required
-            </Text>
-            <Text style={styles.priceStyle}>₹ 653</Text>
-          </View>
+                <View style={styles.dataView}>
+                  <View style={{height: 110}}>
+                    <Text style={styles.titleStyle}>
+                      {data.title.slice(0, 10)}
+                    </Text>
+                    <Text style={styles.titleStyle}>
+                      {data.category.slice(0, 10)}
+                    </Text>
+                    <Text style={styles.desStyle}>
+                      {data.description.slice(0, 30)}
+                    </Text>
+                    <Text style={styles.priceStyle}>{data.price}</Text>
+                  </View>
 
-          <View style={{flexDirection: 'row', marginHorizontal: -12}}>
-            <TouchableOpacity>
-              <Text style={styles.deleteStyle}>
-                <AntDesign name="delete" size={20} color={Colors.secondary} />
-                Delete
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('CartUi')}>
-              <Text style={styles.cardStyle}>
-                <Fontisto
-                  name="shopping-basket-add"
-                  size={20}
-                  color={Colors.green}
-                />
-                Add to Card
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
+                  <View style={{flexDirection: 'row', marginHorizontal: -12}}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        setFavData(
+                          FavData.filter(() => data.id) ??
+                            Alert.alert('deleted successfully'),
+                        )
+                      }
+                    >
+                      <Text style={styles.deleteStyle}>
+                        <AntDesign
+                          name="delete"
+                          size={20}
+                          color={Colors.secondary}
+                        />
+                        Delete
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('CartUi')}
+                    >
+                      <Text style={styles.cardStyle}>
+                        <Fontisto
+                          name="shopping-basket-add"
+                          size={20}
+                          color={Colors.green}
+                        />
+                        Add to Card
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </View>
+          );
+        })}
+      </ScrollView>
     </View>
   );
 };

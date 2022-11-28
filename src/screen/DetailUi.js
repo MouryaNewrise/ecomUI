@@ -7,25 +7,32 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {Colors, fonts} from '../assets/Assets';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/AntDesign';
+// import {getProduct} from '../services/ProductServices';
+import {useDispatch, useSelector} from 'react-redux';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const DetailUi = ({navigation}) => {
+const DetailUi = props => {
+  const dispatch = useDispatch();
+  const {navigation} = props;
+  const getData = props.route.params.itemId;
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products/13')
+    fetch(`https://fakestoreapi.com/products/${getData}`)
       .then(res => res.json())
       .then(json => {
         setData(json);
       });
   }, []);
+
   return (
     <>
       <View style={styles.container}>
@@ -89,7 +96,9 @@ const DetailUi = ({navigation}) => {
         </View>
         <TouchableOpacity
           style={styles.addCart}
-          onPress={() => navigation.navigate('CartUi')}
+          onPress={() => {
+            navigation.navigate('CartUi', {itemId: data.id});
+          }}
         >
           <Text style={styles.addCartText}>Add to Cart</Text>
         </TouchableOpacity>
@@ -153,9 +162,8 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   imageView: {
-    width: width / 5 - 100,
-    height: width / 2,
-    margin: 24,
+    width: '50%',
+    height: height / 2 - 108,
   },
   collectionView: {
     paddingVertical: 10,
@@ -169,6 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundGray,
     height: 270,
     borderRadius: 10,
+    alignItems: 'center',
   },
   iconStyContainer: {
     textAlign: 'right',

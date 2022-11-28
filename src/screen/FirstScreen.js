@@ -43,7 +43,6 @@ const FirstScreen = ({navigation}) => {
               size={30}
               color={Colors.black}
             />
-            ;
           </Text>
         </TouchableOpacity>
       </View>

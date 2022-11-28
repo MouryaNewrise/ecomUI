@@ -8,6 +8,7 @@ import AntDesign from 'react-native-vector-icons';
 import {Colors} from '../assets/Assets';
 import CustomDrawer from './CustomDrawer';
 import ViewOrder from '../screen/ViewOrder';
+import Ionicons from 'react-native-vector-icons';
 
 const Drawer = createDrawerNavigator();
 
@@ -30,7 +31,19 @@ export default function MyDrawer() {
         activeTintColor: 'white',
       }}
     >
-      <Drawer.Screen name="SignUp/Login" component={RegisterUi} />
+      <Drawer.Screen
+        name="SignUp/Login"
+        component={RegisterUi}
+        // options={{
+        //   drawerIcon: ({focused, size}) => (
+        //     <Ionicons
+        //       name="md-home"
+        //       size={size}
+        //       color={focused ? '#7cc' : '#ccc'}
+        //     />
+        //   ),
+        // }}
+      />
       <Drawer.Screen
         options={{headerShown: false}}
         name="Settings"
