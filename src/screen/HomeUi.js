@@ -8,13 +8,17 @@ import {
   Dimensions,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {Colors, fonts} from '../assets/Assets';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {getProducts} from '../services/ProductServices';
+import {useSelector, useDispatch} from 'react-redux';
+import {fetchData} from '../redux/ProductSlice';
+import {add} from '../redux/ProductSlice';
+import {addToCart} from '../redux/CartSlice';
 
 const width = Dimensions.get('window').width;
 
@@ -42,13 +46,14 @@ const allCategory = [
   },
 ];
 const HomeUi = ({navigation}) => {
-  const [collection, setCollection] = useState([]);
+  const collection = useSelector(state => state.product.data);
+  const dispatch = useDispatch();
   const [filter, setFilter] = useState('all');
-  const [clicked, setClicked] = useState();
+  const [clicked, setClicked] = useState(0);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    setCollection(getProducts);
+    dispatch(fetchData());
   });
   return (
     <>
@@ -110,7 +115,7 @@ const HomeUi = ({navigation}) => {
             data={
               filter == 'all'
                 ? collection
-                : collection.filter(e => e.category == filter)
+                : collection.filter(e => e.category == filter, search)
             }
             numColumns={2}
             idExtractor={id => {
@@ -121,7 +126,7 @@ const HomeUi = ({navigation}) => {
                 <ScrollView style={styles.collectionView}>
                   <TouchableOpacity
                     onPress={() => {
-                      setClicked([index]);
+                      dispatch(addToCart());
                     }}
                     style={styles.iconStyContainer}
                   >

@@ -1,5 +1,4 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {PRODUCTS} from '../services/ProductServices';
 
 export const fetchUserById = createAsyncThunk(
   'products/fetchUserById',
@@ -11,19 +10,22 @@ export const fetchUserById = createAsyncThunk(
   },
 );
 const initialState = {
-  items: [PRODUCTS],
-  loading: 'idle',
+  entities: [],
+  loading: 'idle' | 'pending' | 'succeeded' | 'failed',
 };
-
 export const counterSlice = createSlice({
   name: 'items',
   initialState,
-  reducers: {
-    addCart: (state, action) => {
-      state.items.push(action.payload);
-    },
+  reducers: {},
+
+  extraReducers: builder => {
+    // Add reducers for additional action types here, and handle loading state as needed
+    builder.addCase(fetchUserById.fulfilled, (state, action) => {
+      // Add user to the state array
+      state.entities.push(action.payload);
+    });
   },
-  //   extraReducers:{
+  // extraReducers: {
   //   [fetchUserById.pending]: state => {
   //     state.status = 'loading';
   //   },
@@ -35,7 +37,7 @@ export const counterSlice = createSlice({
   //   [fetchUserById.rejected]: state => {
   //     state.status = 'failed';
   //   },
-  // }
+  // },
 });
 
 export const {addCase} = counterSlice.actions;

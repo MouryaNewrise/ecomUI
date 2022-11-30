@@ -12,3 +12,17 @@ const App = () => {
 };
 
 export default App;
+
+// import {View, Text} from 'react-native';
+// import React from 'react';
+// import UseRefHook from './src/hooks/UseRefHook';
+
+// const App = () => {
+//   return (
+//     <>
+//       <UseRefHook />
+//     </>
+//   );
+// };
+
+// export default App;

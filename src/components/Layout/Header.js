@@ -11,7 +11,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 const width = Dimensions.get('window').width;
-const Header = ({navigation}) => {
+
+const Header = () => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.headerFlex}>
@@ -22,6 +23,7 @@ const Header = ({navigation}) => {
           style={styles.searchContainer}
           placeholder="Search..."
           placeholderTextColor={'black'}
+          onChangeText={e => setSearch(e)}
         />
         <EvilIcons
           style={styles.searchIconStyle}

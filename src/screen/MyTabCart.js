@@ -18,25 +18,9 @@ import {Colors, fonts} from '../assets/Assets';
 import SocialIcon from '../components/Layout/SocialIcon';
 import {fetchUserById} from '../redux/ProductSlice';
 import {useDispatch, useSelector} from 'react-redux';
-import {increment, decrement} from '../redux/ProductSlice';
 
 const MyTabCart = ({navigation}) => {
-  const counter = useSelector(state => state.product.value);
-  //   const items = useSelector(state => state.items.items);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchUserById());
-  });
-
-  //   console.log('first', items);
-  const handelIncrement = minus => {
-    if ((minus = counter)) {
-      dispatch(decrement());
-    } else {
-      Alert.alert('wrong');
-    }
-  };
+  const [counter, setCounter] = useState(0);
 
   return (
     <View>
@@ -60,8 +44,8 @@ const MyTabCart = ({navigation}) => {
                 <Text style={styles.titleStyle}>title providing</Text>
                 <Text style={styles.desStyle}>eCommerce store with</Text>
                 <Text style={styles.priceStyle}>₹ 653</Text>
-                <View style={styles.btnContainer}>
-                  <TouchableOpacity onPress={() => dispatch(handelIncrement())}>
+                {/* <View style={styles.btnContainer}>
+                  <TouchableOpacity onPress={() => handelIncrement()}>
                     <Text>
                       <AntDesign
                         name="minuscircle"
@@ -71,7 +55,7 @@ const MyTabCart = ({navigation}) => {
                     </Text>
                   </TouchableOpacity>
                   <Text style={styles.countStyle}>{counter}</Text>
-                  <TouchableOpacity onPress={() => dispatch(increment())}>
+                  <TouchableOpacity onPress={() => setCounter(counter + 1)}>
                     <Text>
                       <AntDesign
                         name="pluscircle"
@@ -80,7 +64,7 @@ const MyTabCart = ({navigation}) => {
                       />
                     </Text>
                   </TouchableOpacity>
-                </View>
+                </View> */}
               </View>
 
               <View style={{flexDirection: 'column'}}>

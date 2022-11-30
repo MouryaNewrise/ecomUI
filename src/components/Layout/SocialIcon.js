@@ -30,7 +30,12 @@ const SocialIcon = () => {
               </Text>
               <Text style={styles.groupIcon}>
                 {' '}
-                <AntDesign name={'twitter'} size={30} color={'deepskyblue'} />
+                <AntDesign
+                  name={'twitter'}
+                  onfocus={'red'}
+                  size={30}
+                  color={'deepskyblue'}
+                />
               </Text>
               <Text style={styles.groupIcon}>
                 {' '}

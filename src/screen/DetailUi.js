@@ -15,14 +15,17 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/AntDesign';
 // import {getProduct} from '../services/ProductServices';
 import {useDispatch, useSelector} from 'react-redux';
+import {fetchData} from '../redux/ProductSlice';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const DetailUi = props => {
-  const dispatch = useDispatch();
   const {navigation} = props;
   const getData = props.route.params.itemId;
+  const dispatch = useDispatch();
+  //   const data = useSelector(state => state.product);
+
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -31,8 +34,10 @@ const DetailUi = props => {
       .then(json => {
         setData(json);
       });
+    // dispatch(fetchData());
   }, []);
 
+  //   console.log('getData', dispatch(fetchData(getData)));
   return (
     <>
       <View style={styles.container}>

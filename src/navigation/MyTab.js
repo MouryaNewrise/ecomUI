@@ -9,11 +9,13 @@ import FavoriteUi from '../screen/FavoriteUi';
 import ProfileUi from '../screen/ProfileUi';
 import {Colors} from '../assets/Assets';
 import MyTabCart from '../screen/MyTabCart';
-// import {CustomTabBar} from '../navigation/CustomTabBar';
+import {useSelector} from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
 const MyTab = () => {
+  const like = useSelector(state => state.toCart.items);
+
   return (
     <Tab.Navigator
       //   tabBar={props => <CustomTabBar {...props} />}
@@ -42,7 +44,7 @@ const MyTab = () => {
             <MaterialIcons name="favorite-outline" color={color} size={size} />
           ),
           headerShown: false,
-          tabBarBadge: 1,
+          tabBarBadge: like.length,
         }}
       />
       <Tab.Screen

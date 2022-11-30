@@ -14,7 +14,7 @@ export const storeSlice = createSlice({
     add: (state, actions) => {
       state.items.push();
     },
-    remove: () => {
+    remove: (state, action) => {
       state.items.filter(item => action(item.id));
     },
     increment: (state, actions) => {
@@ -30,5 +30,5 @@ export const storeSlice = createSlice({
   },
 });
 
-export const {addStoreProduct} = storeSlice.actions;
+export const {add, remove} = storeSlice.actions;
 export default storeSlice.reducer;

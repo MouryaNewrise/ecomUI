@@ -1,36 +1,68 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import axios from 'axios';
+const STATUSES = Object.freeze({
+  IDLE: 'idle',
+  PENDING: 'Loading',
+  SUCCESS: 'success',
+  ERROR: 'failed',
+});
 
-export const fetchUserById = createAsyncThunk(
-  'users/fetchByIdStatus',
-  axios
-    .get('https://fakestoreapi.com/products')
-    .then(res => res.data)
-    .then(data => {
-      return data;
-    }),
-);
 const initialState = {
-  productItems: [],
-  value: 1,
+  data: [],
+  status: '',
+  like: 0,
 };
 
-export const counterSlice = createSlice({
+export const MyProductSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    increment: state => {
-      state.value += 1;
+    add: (state, action) => {
+      state.data.push(action.payload);
     },
-    decrement: state => {
-      state.value -= 1;
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
-    },
+    // setProduct: (state, action) => {
+    //   state.data = action.payload;
+    // },
+    // setStatus: (state, action) => {
+    //   state.status = action.payload;
+    // },
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchData.pending, state => {
+        state.status = STATUSES.PENDING;
+      })
+      .addCase(fetchData.fulfilled, (state, action) => {
+        state.data = action.payload;
+        state.status = STATUSES.IDLE;
+      })
+      .addCase(fetchData.rejected, state => {
+        state.status = STATUSES.ERROR;
+      });
   },
 });
 
-export const {increment, decrement, incrementByAmount} = counterSlice.actions;
+export const {add} = MyProductSlice.actions;
 
-export default counterSlice.reducer;
+export default MyProductSlice.reducer;
+
+//thunk learner
+
+export const fetchData = createAsyncThunk('users/fetchByIdStatus', async () => {
+  const res = await fetch('https://fakestoreapi.com/products');
+  const apiData = await res.json();
+  return apiData;
+});
+
+// export function fetchData() {
+//   return async function fetchAPIData(dispatch, getState) {
+//     dispatch(setStatus(STATUSES.PENDING));
+//     try {
+//       const res = await fetch('https://fakestoreapi.com/products');
+//       const apiData = await res.json();
+//       dispatch(setProduct(apiData));
+//     } catch (error) {
+//       console.log(error);
+//       dispatch(setStatus(STATUSES.ERROR));
+//     }
+//   };
+// }
