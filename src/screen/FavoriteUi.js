@@ -17,31 +17,23 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import {Colors, fonts} from '../assets/Assets';
 import Header from '../components/Layout/Header';
 import {useSelector, useDispatch} from 'react-redux';
-import {getProducts} from '../services/ProductServices';
-import addCart from '../redux/StoreAPISlice';
-import {searchHandle} from '../redux/SearchSlice';
-import {reducer} from '../redux/TodoSlice';
+import {fetchData} from '../redux/ProductSlice';
+import {addToCart} from '../redux/CartSlice';
+import {addToCartMy, removeItem} from '../redux/AddToCartSlice';
 
-const FavoriteUi = ({navigation, route}) => {
-  const fetchData = useSelector(state => state.todos);
+const FavoriteUi = props => {
+  const {navigation} = props;
+  //   const getData = props.route.params.itemId;
   const dispatch = useDispatch();
+  const FavData = useSelector(state => state.toCart.items);
 
-  console.log('first', fetchData);
-  const [FavData, setFavData] = useState([]);
   const [search, setSearch] = useState('');
-  const [input, setInput] = useState('');
-  const [todo, setTodo] = useState([]);
 
-  const addTodoHandle = () => {
-    setTodo([...todo, input]);
-    setInput();
-  };
-
-  console.log('first', todo);
   useEffect(() => {
-    setFavData(getProducts());
-  });
+    dispatch(fetchData());
+  }, []);
 
+  //   console.log('FavData', FavData);
   return (
     <View style={{flex: 1}}>
       <Header />
@@ -54,84 +46,76 @@ const FavoriteUi = ({navigation, route}) => {
               'http://3.bp.blogspot.com/-BalaNVRwmhM/VoJmDzFmk0I/AAAAAAAA55I/OoVDKUax5zc/s1600/WishList-logo.gif',
           }}
         />
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <TextInput placeholder="search...0" onChangeText={e => setInput(e)} />
-          <Button title="➕" onPress={e => addTodoHandle(e)} />
-        </View>
-        <Text style={{height: 150}}>{todo}</Text>
-        {/* <ScrollView style={{marginBottom: 150}}>
-        {FavData.filter(e => e.category.toUpperCase().includes(search)).map(
-          (data, index) => {
-            return (
-              <View key={index} style={{marginVertical: 10}}>
-                <View style={styles.imageContainer}>
-                  <View style={{paddingVertical: 10}}>
-                    <Image
-                      source={{
-                        uri: data.image,
-                      }}
-                      style={styles.imageStyle}
-                    />
-                  </View>
 
-                  <View style={styles.dataView}>
-                    <View style={{height: 110}}>
-                      <Text style={styles.titleStyle}>
-                        {data.title.slice(0, 10)}
-                      </Text>
-                      <Text style={styles.titleStyle}>
-                        {data.category.slice(0, 10)}
-                      </Text>
-                      <Text style={styles.desStyle}>
-                        {data.description.slice(0, 30)}
-                      </Text>
-                      <Text style={styles.priceStyle}>{data.price}</Text>
+        <ScrollView style={{marginBottom: 150}}>
+          {FavData.filter(e => e.category.toUpperCase().includes(search)).map(
+            (data, index) => {
+              return (
+                <View key={index} style={{marginVertical: 10}}>
+                  <View style={styles.imageContainer}>
+                    <View style={{paddingVertical: 10}}>
+                      <Image
+                        source={{
+                          uri: data.image,
+                        }}
+                        style={styles.imageStyle}
+                      />
                     </View>
 
-                    <View style={{flexDirection: 'row', marginHorizontal: -12}}>
-                      <TouchableOpacity
-                        onPress={() =>
-                          setFavData(FavData.filter(fav => fav.id !== data.id))
-                        }
-                      >
-                        <Text style={styles.deleteStyle}>
-                          <AntDesign
-                            name="delete"
-                            size={20}
-                            color={Colors.secondary}
-                          />
-                          Delete
+                    <View style={styles.dataView}>
+                      <View style={{height: 110}}>
+                        <Text style={styles.titleStyle}>
+                          {data.title.slice(0, 10)}
                         </Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() =>
-                          navigation.navigate('CartUi', {itemId: data.id})
-                        }
-                        // onPress={cart => {
-                        //   if (cart) {
-                        //     dispatch(() => addCart('data.id'));
-                        //     navigation.navigate('CartUi');
-                        //   }
-                        // }}
-                      >
-                        <Text style={styles.cardStyle}>
-                          <Fontisto
-                            name="shopping-basket-add"
-                            size={20}
-                            color={Colors.green}
-                          />
-                          Add to Card
+                        <Text style={styles.titleStyle}>
+                          {data.category.slice(0, 10)}
                         </Text>
-                      </TouchableOpacity>
+                        <Text style={styles.desStyle}>
+                          {data.description.slice(0, 30)}
+                        </Text>
+                        <Text style={styles.priceStyle}>{data.price}</Text>
+                      </View>
+
+                      <View
+                        style={{flexDirection: 'row', marginHorizontal: -12}}
+                      >
+                        <TouchableOpacity
+                          onPress={() => {
+                            dispatch(removeItem(data));
+                          }}
+                        >
+                          <Text style={styles.deleteStyle}>
+                            <AntDesign
+                              name="delete"
+                              size={20}
+                              color={Colors.secondary}
+                            />
+                            Delete
+                          </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={
+                            () => dispatch(addToCartMy(data))
+                            // navigation.navigate('CartUi', {itemId: data.id})
+                          }
+                        >
+                          <Text style={styles.cardStyle}>
+                            <Fontisto
+                              name="shopping-basket-add"
+                              size={20}
+                              color={Colors.green}
+                            />
+                            To Cart
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   </View>
                 </View>
-              </View>
-            );
-          },
-        )}
-      </ScrollView> */}
-        {/* <Text>{fetchData}</Text> */}
+              );
+            },
+          )}
+        </ScrollView>
       </ImageBackground>
     </View>
   );
@@ -177,6 +161,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     borderRadius: 10,
     fontWeight: '500',
+    marginHorizontal: 6,
   },
   cardStyle: {
     backgroundColor: Colors.cardColor,

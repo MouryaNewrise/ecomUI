@@ -8,7 +8,7 @@ import AntDesign from 'react-native-vector-icons';
 import {Colors} from '../assets/Assets';
 import CustomDrawer from './CustomDrawer';
 import ViewOrder from '../screen/ViewOrder';
-import Ionicons from 'react-native-vector-icons';
+// import Ionicons from 'react-native-vector-icons';
 
 const Drawer = createDrawerNavigator();
 
@@ -43,6 +43,11 @@ export default function MyDrawer() {
         //     />
         //   ),
         // }}
+      />
+      <Drawer.Screen
+        options={{headerShown: false}}
+        name="Home"
+        component={SettingUi}
       />
       <Drawer.Screen
         options={{headerShown: false}}

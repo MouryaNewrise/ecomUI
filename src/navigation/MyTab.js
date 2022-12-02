@@ -15,10 +15,10 @@ const Tab = createBottomTabNavigator();
 
 const MyTab = () => {
   const like = useSelector(state => state.toCart.items);
+  const tabCart = useSelector(state => state.wishlist.wishlist);
 
   return (
     <Tab.Navigator
-      //   tabBar={props => <CustomTabBar {...props} />}
       initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: Colors.black,
@@ -60,6 +60,7 @@ const MyTab = () => {
             />
           ),
           headerShown: false,
+          tabBarBadge: tabCart.length,
         }}
       />
       <Tab.Screen

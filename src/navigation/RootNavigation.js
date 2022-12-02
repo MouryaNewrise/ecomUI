@@ -15,6 +15,7 @@ import LogoutUi from '../screen/LogoutUi';
 import SettingUi from '../screen/SettingUi';
 import ViewOrder from '../screen/ViewOrder';
 import FavoriteUi from '../screen/FavoriteUi';
+import MyTabCart from '../screen/MyTabCart';
 
 const Stack = createNativeStackNavigator();
 
@@ -90,6 +91,11 @@ const RootNavigation = () => {
         <Stack.Screen
           name="FavoriteUi"
           component={FavoriteUi}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="MyTabCart"
+          component={MyTabCart}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

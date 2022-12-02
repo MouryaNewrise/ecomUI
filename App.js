@@ -14,13 +14,16 @@ const App = () => {
 export default App;
 
 // import {View, Text} from 'react-native';
-// import React from 'react';
-// import UseRefHook from './src/hooks/UseRefHook';
+// import React, {useEffect} from 'react';
+// import {Push_Notification} from './src/fairbase/Push_Notification';
 
 // const App = () => {
+//   useEffect(() => {
+//     Push_Notification();
+//   }, []);
 //   return (
 //     <>
-//       <UseRefHook />
+//       <Text>App</Text>
 //     </>
 //   );
 // };

@@ -5,7 +5,7 @@ const todosSlice = createSlice({
   initialState: [],
   reducers: {
     reducer: (state, action) => {
-      state.push(action);
+      state.push(action.payload);
     },
     //   prepare: text => {
     //     const id = nanoid();

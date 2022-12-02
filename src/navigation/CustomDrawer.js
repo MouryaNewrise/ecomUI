@@ -66,6 +66,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   footerStyle: {
-    marginTop: 150,
+    marginTop: 80,
   },
 });

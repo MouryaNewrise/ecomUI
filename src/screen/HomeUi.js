@@ -13,12 +13,11 @@ import {
 import React, {useState, useEffect} from 'react';
 import {Colors, fonts} from '../assets/Assets';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchData} from '../redux/ProductSlice';
-import {add} from '../redux/ProductSlice';
-import {addToCart} from '../redux/CartSlice';
+import {addToFav} from '../redux/CartSlice';
 
 const width = Dimensions.get('window').width;
 
@@ -47,9 +46,10 @@ const allCategory = [
 ];
 const HomeUi = ({navigation}) => {
   const collection = useSelector(state => state.product.data);
+  //   const likeItem = useSelector(state => state.toCart.items);
   const dispatch = useDispatch();
   const [filter, setFilter] = useState('all');
-  const [clicked, setClicked] = useState(0);
+  const [liked, setLiked] = useState([]);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
@@ -126,17 +126,25 @@ const HomeUi = ({navigation}) => {
                 <ScrollView style={styles.collectionView}>
                   <TouchableOpacity
                     onPress={() => {
-                      dispatch(addToCart());
+                      {
+                        dispatch(addToFav(item));
+                        if (liked.includes(index)) {
+                          let unLiked = liked.filter(
+                            likeNum => likeNum !== index,
+                          );
+                          setLiked(unLiked);
+                        } else {
+                          setLiked([...liked, index]);
+                        }
+                      }
                     }}
                     style={styles.iconStyContainer}
                   >
                     <Text>
-                      <MaterialIcons
-                        name="favorite-border"
-                        size={20}
-                        color={
-                          clicked == index ? Colors.secondary : Colors.primary
-                        }
+                      <Ionicons
+                        name="heart-circle-sharp"
+                        size={35}
+                        color={liked.includes(index) ? 'red' : Colors.cardColor}
                       />
                     </Text>
                   </TouchableOpacity>
@@ -227,12 +235,8 @@ const styles = StyleSheet.create({
   iconStyContainer: {
     zIndex: 2,
     position: 'absolute',
-    textAlign: 'right',
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 20,
-    margin: 5,
-    marginLeft: 130,
+    padding: 3,
+    marginLeft: 135,
   },
   titleStyle: {
     fontFamily: fonts.regular,

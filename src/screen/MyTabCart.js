@@ -3,6 +3,7 @@ import {
   Button,
   FlatList,
   Image,
+  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
@@ -16,96 +17,156 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Colors, fonts} from '../assets/Assets';
 import SocialIcon from '../components/Layout/SocialIcon';
-import {fetchUserById} from '../redux/ProductSlice';
 import {useDispatch, useSelector} from 'react-redux';
+import {
+  addToCartMy,
+  removeAll,
+  removeItem,
+  removeFromCart,
+  getTotals,
+} from '../redux/AddToCartSlice';
 
 const MyTabCart = ({navigation}) => {
-  const [counter, setCounter] = useState(0);
+  const dispatch = useDispatch();
+  const tabCart = useSelector(state => state.wishlist.wishlist);
+  const count = useSelector(state => state.wishlist.cartTotalQuantity);
+  const total = useSelector(state => state.wishlist.cartTotalAmount);
+
+  useEffect(() => {
+    dispatch(getTotals());
+  }, [total]);
 
   return (
-    <View>
+    <>
       <SocialIcon />
-      <View style={{height: 600}}>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <Text style={styles.myCartText}>My Cart</Text>
-        <ScrollView>
-          <View style={styles.imageContainer}>
-            <View style={{paddingVertical: 10}}>
-              <Image
-                source={{
-                  uri:
-                    'https://beebom.com/wp-content/uploads/2020/08/71EODBGqnRL._AC_SL1500_-e1597377175891.jpg',
-                }}
-                style={styles.imageStyle}
-              />
-            </View>
-
-            <View style={styles.itemView}>
-              <View style={{height: 110}}>
-                <Text style={styles.titleStyle}>title providing</Text>
-                <Text style={styles.desStyle}>eCommerce store with</Text>
-                <Text style={styles.priceStyle}>₹ 653</Text>
-                {/* <View style={styles.btnContainer}>
-                  <TouchableOpacity onPress={() => handelIncrement()}>
-                    <Text>
-                      <AntDesign
-                        name="minuscircle"
-                        color={Colors.blue}
-                        size={25}
-                      />
-                    </Text>
-                  </TouchableOpacity>
-                  <Text style={styles.countStyle}>{counter}</Text>
-                  <TouchableOpacity onPress={() => setCounter(counter + 1)}>
-                    <Text>
-                      <AntDesign
-                        name="pluscircle"
-                        color={Colors.blue}
-                        size={25}
-                      />
-                    </Text>
-                  </TouchableOpacity>
-                </View> */}
-              </View>
-
-              <View style={{flexDirection: 'column'}}>
-                <TouchableOpacity>
-                  <Text style={styles.deleteView}>
-                    <AntDesign
-                      name="delete"
-                      size={20}
-                      color={Colors.secondary}
-                    />
-                    Delete
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('HomeUi')}>
-                  <Text style={styles.homeText}>
-                    <Fontisto name="home" size={20} color={Colors.green} />
-                    Back to Home
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </ScrollView>
-        <View style={styles.paymentContainer}>
-          <Text style={styles.totalStyle}>Total : ₹ {653 * counter}</Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('MakePayment')}
-            style={styles.makePayment}
-          >
-            <Text style={{color: Colors.white}}>
-              <MaterialCommunityIcons
-                name={'cards'}
-                color={Colors.white}
-                size={25}
-              />
-              Make Payment
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity onPress={() => dispatch(removeAll())}>
+          <Text style={styles.myCartText}>
+            <AntDesign name="delete" size={35} />
+          </Text>
+        </TouchableOpacity>
       </View>
-    </View>
+      <ImageBackground>
+        <Image
+          style={styles.wishList}
+          source={{
+            uri: 'https://cdn-icons-png.flaticon.com/512/3163/3163175.png',
+          }}
+        />
+        <ScrollView>
+          {tabCart.map((item, index) => {
+            console.log('itam', item);
+            return (
+              <>
+                <ScrollView>
+                  <View key={index} style={styles.imageContainer}>
+                    <View style={{paddingVertical: 10}}>
+                      <Image
+                        source={{
+                          uri: item.image,
+                        }}
+                        style={styles.imageStyle}
+                      />
+                    </View>
+                    <View style={styles.itemView}>
+                      <View style={{height: 110}}>
+                        <Text style={styles.titleStyle}>
+                          {/* {item.title.slice(0, 40)} */}
+                          {item.title}
+                        </Text>
+
+                        <Text style={styles.desStyle}>{item.category}</Text>
+                        <Text style={styles.priceStyle}>
+                          Price : ₹ {item.price}
+                        </Text>
+                        <View style={styles.btnContainer}>
+                          <TouchableOpacity
+                            onPress={() => dispatch(removeFromCart())}
+                          >
+                            <Text>
+                              <AntDesign
+                                name="minuscircle"
+                                color={Colors.blue}
+                                size={25}
+                              />
+                            </Text>
+                          </TouchableOpacity>
+                          <Text style={styles.countStyle}>
+                            {tabCart.length}
+                          </Text>
+                          <TouchableOpacity
+                            onPress={() => dispatch(addToCartMy(item.id))}
+                          >
+                            <Text>
+                              <AntDesign
+                                name="pluscircle"
+                                color={Colors.blue}
+                                size={25}
+                              />
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </View>
+                    <View
+                      style={{
+                        marginTop: 30,
+                      }}
+                    >
+                      <TouchableOpacity
+                        onPress={item => dispatch(removeItem(item.id))}
+                      >
+                        <Text style={styles.deleteView}>
+                          <AntDesign
+                            name="delete"
+                            size={20}
+                            color={Colors.secondary}
+                          />
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate('HomeUi')}
+                      >
+                        <Text style={styles.homeText}>
+                          <Fontisto
+                            name="home"
+                            size={20}
+                            color={Colors.green}
+                          />
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </ScrollView>
+              </>
+            );
+          })}
+        </ScrollView>
+      </ImageBackground>
+      <View style={styles.paymentContainer}>
+        <Text style={styles.totalStyle}>Total : ₹ {total * count} </Text>
+        <TouchableOpacity
+          onPress={auth => {
+            if (!auth) {
+              navigation.navigate('MakePayment');
+            } else {
+              navigation.navigate('RegisterUi');
+            }
+          }}
+          style={styles.makePayment}
+        >
+          <Text style={{color: Colors.white}}>
+            <MaterialCommunityIcons
+              name={'cards'}
+              color={Colors.white}
+              size={25}
+            />
+            Make Payment
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </>
   );
 };
 
@@ -126,16 +187,22 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     marginHorizontal: 20,
+    marginVertical: 10,
   },
   imageStyle: {
-    width: 150,
-    height: 200,
-    borderTopLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    borderRadius: 10,
+    width: 120,
+    height: 120,
+    // borderTopLeftRadius: 20,
+    // borderBottomRightRadius: 20,
+    borderRadius: 100,
   },
-  itemView: {width: '50%', paddingVertical: 10, marginRight: 10},
-  titleStyle: {fontFamily: fonts.semiBold, color: Colors.black},
+  itemView: {width: '50%', padding: 10},
+  titleStyle: {
+    fontFamily: fonts.semiBold,
+    color: Colors.black,
+    height: 40,
+    backgroundColor: 'white',
+  },
   desStyle: {fontFamily: fonts.medium, color: Colors.lightBlack},
   priceStyle: {fontFamily: fonts.regular, color: Colors.black},
   deleteView: {
@@ -145,6 +212,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontWeight: '500',
     marginBottom: 10,
+    marginHorizontal: 3,
   },
   homeText: {
     backgroundColor: Colors.cardColor,
@@ -154,7 +222,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginHorizontal: 3,
   },
-  btnContainer: {flexDirection: 'row', paddingVertical: 20},
+  btnContainer: {flexDirection: 'row', paddingVertical: 10},
   countStyle: {
     paddingHorizontal: 10,
     fontSize: 20,
@@ -170,6 +238,8 @@ const styles = StyleSheet.create({
     padding: 25,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
+    position: 'absolute',
+    marginTop: 570,
   },
   totalStyle: {fontFamily: fonts.bold, fontSize: 16, fontWeight: '700'},
   makePayment: {
@@ -180,4 +250,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 3,
     height: 40,
   },
+  //   wishList: {
+  //     width: 350,
+  //     height: 190,
+  //     opacity: 4,
+  //     margin: 20,
+  //     marginTop: 10,
+  //     opacity: 0.3,
+  //     position: 'absolute',
+  //   },
 });

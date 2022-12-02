@@ -15,29 +15,28 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/AntDesign';
 // import {getProduct} from '../services/ProductServices';
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchData} from '../redux/ProductSlice';
+import {addToCart} from '../redux/CartSlice';
+import {addToCartMy} from '../redux/AddToCartSlice';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const DetailUi = props => {
+  const cart = useSelector(state => state.toCart.items);
+  const dispatch = useDispatch();
   const {navigation} = props;
   const getData = props.route.params.itemId;
-  const dispatch = useDispatch();
-  //   const data = useSelector(state => state.product);
-
   const [data, setData] = useState([]);
 
+  console.log('data', cart);
   useEffect(() => {
     fetch(`https://fakestoreapi.com/products/${getData}`)
       .then(res => res.json())
       .then(json => {
         setData(json);
       });
-    // dispatch(fetchData());
   }, []);
 
-  //   console.log('getData', dispatch(fetchData(getData)));
   return (
     <>
       <View style={styles.container}>
@@ -102,7 +101,8 @@ const DetailUi = props => {
         <TouchableOpacity
           style={styles.addCart}
           onPress={() => {
-            navigation.navigate('CartUi', {itemId: data.id});
+            dispatch(addToCartMy(data));
+            // navigation.navigate('MyTabCart', {itemId: data.id});
           }}
         >
           <Text style={styles.addCartText}>Add to Cart</Text>
