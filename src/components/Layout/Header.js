@@ -12,7 +12,7 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 const width = Dimensions.get('window').width;
 
-const Header = () => {
+const Header = (search, setSearch) => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.headerFlex}>
@@ -20,6 +20,7 @@ const Header = () => {
           <Icon style={styles.menuIconStyle} name="menu-outline" size={35} />
         </TouchableOpacity>
         <TextInput
+          //   value={search}
           style={styles.searchContainer}
           placeholder="Search..."
           placeholderTextColor={'black'}

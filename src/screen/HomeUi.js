@@ -17,7 +17,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchData} from '../redux/ProductSlice';
-import {addToFav} from '../redux/CartSlice';
+import {addToFav, removeToFav} from '../redux/CartSlice';
 
 const width = Dimensions.get('window').width;
 
@@ -46,11 +46,10 @@ const allCategory = [
 ];
 const HomeUi = ({navigation}) => {
   const collection = useSelector(state => state.product.data);
-  //   const likeItem = useSelector(state => state.toCart.items);
   const dispatch = useDispatch();
   const [filter, setFilter] = useState('all');
   const [liked, setLiked] = useState([]);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState([]);
 
   useEffect(() => {
     dispatch(fetchData());
@@ -72,7 +71,8 @@ const HomeUi = ({navigation}) => {
               style={styles.searchContainer}
               placeholder="Search..."
               placeholderTextColor={Colors.darkPlaceHoldColor}
-              onChangeText={r => setSearch(r)}
+              onChangeText={text => setSearch(text)}
+              //   value={search}
             />
             <EvilIcons
               style={styles.searchIconStyle}
@@ -127,13 +127,15 @@ const HomeUi = ({navigation}) => {
                   <TouchableOpacity
                     onPress={() => {
                       {
-                        dispatch(addToFav(item));
                         if (liked.includes(index)) {
                           let unLiked = liked.filter(
                             likeNum => likeNum !== index,
                           );
+                          dispatch(removeToFav(item));
                           setLiked(unLiked);
                         } else {
+                          dispatch(addToFav(item));
+
                           setLiked([...liked, index]);
                         }
                       }
@@ -162,7 +164,9 @@ const HomeUi = ({navigation}) => {
                     </View>
                   </TouchableOpacity>
 
-                  <Text style={styles.categoryStyle}>{item.category}</Text>
+                  <Text style={styles.categoryStyle}>
+                    {item.category.includes(search)}
+                  </Text>
                   <Text style={styles.titleStyle}>
                     {item.title == 25 ? item.title : item.title.slice(0, 20)}
                   </Text>

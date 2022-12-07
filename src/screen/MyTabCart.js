@@ -35,7 +35,6 @@ const MyTabCart = ({navigation}) => {
   useEffect(() => {
     dispatch(getTotals());
   }, [total]);
-
   return (
     <>
       <SocialIcon />
@@ -47,105 +46,98 @@ const MyTabCart = ({navigation}) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <ImageBackground>
+
+      {/* <ImageBackground>
         <Image
           style={styles.wishList}
           source={{
             uri: 'https://cdn-icons-png.flaticon.com/512/3163/3163175.png',
           }}
-        />
-        <ScrollView>
+        /> */}
+      <ScrollView style={{marginBottom: 100}}>
+        <View>
           {tabCart.map((item, index) => {
-            console.log('itam', item);
             return (
-              <>
-                <ScrollView>
-                  <View key={index} style={styles.imageContainer}>
-                    <View style={{paddingVertical: 10}}>
-                      <Image
-                        source={{
-                          uri: item.image,
-                        }}
-                        style={styles.imageStyle}
-                      />
-                    </View>
-                    <View style={styles.itemView}>
-                      <View style={{height: 110}}>
-                        <Text style={styles.titleStyle}>
-                          {/* {item.title.slice(0, 40)} */}
-                          {item.title}
-                        </Text>
+              <View key={index}>
+                {/* <ScrollView> */}
+                <View style={styles.imageContainer}>
+                  <View style={{paddingVertical: 10}}>
+                    <Image
+                      source={{
+                        uri: item.image,
+                      }}
+                      style={styles.imageStyle}
+                    />
+                  </View>
+                  <View style={styles.itemView}>
+                    <View style={{height: 110}}>
+                      <Text style={styles.titleStyle}>{item.title}</Text>
 
-                        <Text style={styles.desStyle}>{item.category}</Text>
-                        <Text style={styles.priceStyle}>
-                          Price : ₹ {item.price}
-                        </Text>
-                        <View style={styles.btnContainer}>
-                          <TouchableOpacity
-                            onPress={() => dispatch(removeFromCart())}
-                          >
-                            <Text>
-                              <AntDesign
-                                name="minuscircle"
-                                color={Colors.blue}
-                                size={25}
-                              />
-                            </Text>
-                          </TouchableOpacity>
-                          <Text style={styles.countStyle}>
-                            {tabCart.length}
+                      <Text style={styles.desStyle}>{item.category}</Text>
+                      <Text style={styles.priceStyle}>
+                        Price : ₹ {item.price}
+                      </Text>
+                      <View style={styles.btnContainer}>
+                        <TouchableOpacity
+                          onPress={() => dispatch(removeFromCart(item))}
+                        >
+                          <Text>
+                            <AntDesign
+                              name="minuscircle"
+                              color={Colors.blue}
+                              size={25}
+                            />
                           </Text>
-                          <TouchableOpacity
-                            onPress={() => dispatch(addToCartMy(item.id))}
-                          >
-                            <Text>
-                              <AntDesign
-                                name="pluscircle"
-                                color={Colors.blue}
-                                size={25}
-                              />
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
+                        </TouchableOpacity>
+                        <Text style={styles.countStyle}>{item?.quantity}</Text>
+                        <TouchableOpacity
+                          onPress={() => dispatch(addToCartMy(item))}
+                        >
+                          <Text>
+                            <AntDesign
+                              name="pluscircle"
+                              color={Colors.blue}
+                              size={25}
+                            />
+                          </Text>
+                        </TouchableOpacity>
                       </View>
                     </View>
-                    <View
-                      style={{
-                        marginTop: 30,
-                      }}
-                    >
-                      <TouchableOpacity
-                        onPress={item => dispatch(removeItem(item.id))}
-                      >
-                        <Text style={styles.deleteView}>
-                          <AntDesign
-                            name="delete"
-                            size={20}
-                            color={Colors.secondary}
-                          />
-                        </Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => navigation.navigate('HomeUi')}
-                      >
-                        <Text style={styles.homeText}>
-                          <Fontisto
-                            name="home"
-                            size={20}
-                            color={Colors.green}
-                          />
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
                   </View>
-                </ScrollView>
-              </>
+                  <View
+                    style={{
+                      marginTop: 30,
+                    }}
+                  >
+                    <TouchableOpacity
+                      onPress={item => dispatch(removeItem(item.id))}
+                    >
+                      <Text style={styles.deleteView}>
+                        <AntDesign
+                          name="delete"
+                          size={20}
+                          color={Colors.secondary}
+                        />
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('HomeUi')}
+                    >
+                      <Text style={styles.homeText}>
+                        <Fontisto name="home" size={20} color={Colors.green} />
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                {/* </ScrollView> */}
+              </View>
             );
           })}
-        </ScrollView>
-      </ImageBackground>
+        </View>
+      </ScrollView>
+      {/* </ImageBackground> */}
       <View style={styles.paymentContainer}>
-        <Text style={styles.totalStyle}>Total : ₹ {total * count} </Text>
+        <Text style={styles.totalStyle}>Total : ₹ {total.toFixed(2)} </Text>
         <TouchableOpacity
           onPress={auth => {
             if (!auth) {

@@ -18,8 +18,8 @@ import {Colors, fonts} from '../assets/Assets';
 import Header from '../components/Layout/Header';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchData} from '../redux/ProductSlice';
-import {addToCart} from '../redux/CartSlice';
 import {addToCartMy, removeItem} from '../redux/AddToCartSlice';
+import {removeToFav} from '../redux/CartSlice';
 
 const FavoriteUi = props => {
   const {navigation} = props;
@@ -33,10 +33,9 @@ const FavoriteUi = props => {
     dispatch(fetchData());
   }, []);
 
-  //   console.log('FavData', FavData);
   return (
     <View style={{flex: 1}}>
-      <Header />
+      <Header search={search} setSearch={setSearch} />
       <Text style={styles.myFavText}>My Favorite</Text>
       <ImageBackground>
         <Image
@@ -64,51 +63,24 @@ const FavoriteUi = props => {
 
                     <View style={styles.dataView}>
                       <View style={{height: 110}}>
-                        <Text style={styles.titleStyle}>
-                          {data.title.slice(0, 10)}
-                        </Text>
-                        <Text style={styles.titleStyle}>
-                          {data.category.slice(0, 10)}
-                        </Text>
-                        <Text style={styles.desStyle}>
-                          {data.description.slice(0, 30)}
-                        </Text>
+                        <Text style={styles.titleStyle}>{data.title}</Text>
+                        <Text style={styles.titleStyle}>{data.category}</Text>
+
                         <Text style={styles.priceStyle}>{data.price}</Text>
                       </View>
-
-                      <View
-                        style={{flexDirection: 'row', marginHorizontal: -12}}
+                    </View>
+                    <View style={{height: 120, backgroundColor: 'red'}}>
+                      <TouchableOpacity
+                        onPress={() => dispatch(addToCartMy(data))}
                       >
-                        <TouchableOpacity
-                          onPress={() => {
-                            dispatch(removeItem(data));
-                          }}
-                        >
-                          <Text style={styles.deleteStyle}>
-                            <AntDesign
-                              name="delete"
-                              size={20}
-                              color={Colors.secondary}
-                            />
-                            Delete
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          onPress={
-                            () => dispatch(addToCartMy(data))
-                            // navigation.navigate('CartUi', {itemId: data.id})
-                          }
-                        >
-                          <Text style={styles.cardStyle}>
-                            <Fontisto
-                              name="shopping-basket-add"
-                              size={20}
-                              color={Colors.green}
-                            />
-                            To Cart
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
+                        <Text style={styles.cardStyle}>
+                          <Fontisto
+                            name="shopping-basket-add"
+                            size={20}
+                            color={Colors.green}
+                          />
+                        </Text>
+                      </TouchableOpacity>
                     </View>
                   </View>
                 </View>
@@ -124,17 +96,6 @@ const FavoriteUi = props => {
 export default FavoriteUi;
 
 const styles = StyleSheet.create({
-  notifyStyle: {
-    textAlign: 'center',
-    margin: 10,
-    padding: 10,
-    backgroundColor: Colors.backgroundGray,
-    borderRadius: 50,
-    width: 60,
-    height: 60,
-    alignItems: 'flex-end',
-    marginLeft: 340,
-  },
   myFavText: {
     padding: 20,
     fontFamily: fonts.medium,
@@ -145,12 +106,13 @@ const styles = StyleSheet.create({
   imageContainer: {
     justifyContent: 'space-between',
     flexDirection: 'row',
-    backgroundColor: Colors.backgroundGray,
+    backgroundColor: Colors.checkBoxOffColor,
     borderRadius: 10,
     paddingHorizontal: 10,
     marginHorizontal: 20,
+    height: 120,
   },
-  imageStyle: {width: 150, height: 150, borderRadius: 100},
+  imageStyle: {width: 100, height: 100, borderRadius: 100},
   dataView: {width: '50%', paddingVertical: 10},
   titleStyle: {fontFamily: fonts.semiBold, color: Colors.black},
   desStyle: {fontFamily: fonts.medium, color: Colors.lightBlack},
@@ -164,12 +126,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 6,
   },
   cardStyle: {
-    backgroundColor: Colors.cardColor,
     padding: 5,
     color: Colors.white,
     borderRadius: 10,
     fontWeight: '500',
     marginHorizontal: 2,
+    textAlignVertical: 'center',
   },
   wishList: {
     width: 350,
