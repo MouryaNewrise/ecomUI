@@ -14,6 +14,7 @@ import {TextInput} from 'react-native-paper';
 import {Colors, fonts} from '../assets/Assets';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
+import firestore from '@react-native-firebase/firestore';
 
 const {width} = Dimensions.get('window');
 
@@ -79,6 +80,22 @@ const AddProduct = ({navigation}) => {
     );
   };
 
+  const handleSubmit = () => {
+    const subscriber = firestore()
+      .collection('products')
+      //   .doc('Q0ioPMYDC2PudohTdkyO')
+      .add({
+        category: {category},
+        title: {title},
+        description: {description},
+        price: {price},
+        images: {images},
+      })
+      .then(() => {
+        return subscriber;
+      });
+  };
+
   return (
     <>
       <View style={styles.headerContainer}>
@@ -93,7 +110,9 @@ const AddProduct = ({navigation}) => {
           <Text style={styles.headerText}>Add Products</Text>
         </View>
         <TouchableOpacity>
-          <Text onPress={navigation.navigate('MyDrawer')}>
+          <Text
+          //   onPress={navigation.navigate('MyDrawer')}
+          >
             <AntDesign name="menufold" color={'white'} size={30} />
           </Text>
         </TouchableOpacity>
@@ -159,7 +178,9 @@ const AddProduct = ({navigation}) => {
         </SafeAreaView>
 
         <TouchableOpacity>
-          <Text style={styles.submitButton}>Submit</Text>
+          <Text style={styles.submitButton} onPress={() => handleSubmit()}>
+            Submit
+          </Text>
         </TouchableOpacity>
       </View>
     </>

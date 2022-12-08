@@ -10,23 +10,43 @@ import {
 import React, {useEffect, useState} from 'react';
 import {Colors} from '../assets/Assets';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import auth from '@react-native-firebase/auth';
 
 const RegisterUi = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [cPassword, setCPassword] = useState('');
   const [clicked, setClicked] = useState(true);
+  const [message, setMessage] = useState('');
 
   const passwordEyeIcon = () => {
     setClicked(!clicked);
   };
 
-  const submitFunction = () => {
-    // if (!password === '' && !cPassword === password) {
-    //   Alert.alert('create account Successful');
-    // } else {
-    //   Alert.alert('should be password and Confirm password are same');
-    // }
+  //   const submitFunction = () => {
+  // if (!password === '' && !cPassword === password) {
+  //   Alert.alert('create account Successful');
+  // } else {
+  //   Alert.alert('should be password and Confirm password are same');
+  // }
+  //   };
+
+  const handleSubscriber = async () => {
+    try {
+      if (email.length > 0 && password.length > 0 && password === cPassword) {
+        await auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then(() => {
+            console.log('User signed');
+            navigation.navigate('HomeUi');
+          });
+      } else {
+        Alert.alert('pls enter email or password');
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage(error.message);
+    }
   };
 
   return (
@@ -51,20 +71,23 @@ const RegisterUi = ({navigation}) => {
           placeholderTextColor={Colors.darkPrimary}
           style={styles.inputStyle}
           placeholder="Email"
-          onChangeText={() => setEmail(email)}
+          value={email}
+          onChangeText={email => setEmail(email)}
         />
         <TextInput
           placeholderTextColor={Colors.darkPrimary}
           style={styles.inputStyle}
           placeholder="Password"
-          onChangeText={() => setPassword(password)}
+          value={password}
+          onChangeText={password => setPassword(password)}
           secureTextEntry={true}
         />
         <TextInput
           placeholderTextColor={Colors.darkPrimary}
           style={styles.inputStyle}
           placeholder="Confirm Password"
-          onChangeText={() => setCPassword(cPassword)}
+          value={cPassword}
+          onChangeText={cPassword => setCPassword(cPassword)}
           secureTextEntry={clicked}
         />
         <View style={styles.eyeContainer}>
@@ -78,10 +101,13 @@ const RegisterUi = ({navigation}) => {
           </Text>
         </View>
         <TouchableOpacity>
-          <Text onPress={() => submitFunction()} style={styles.btnStyle}>
+          <Text onPress={() => handleSubscriber()} style={styles.btnStyle}>
             Submit
           </Text>
         </TouchableOpacity>
+      </View>
+      <View style={{padding: 5, marginTop: 10}}>
+        <Text style={{color: 'red'}}>{message}</Text>
       </View>
       <View style={{marginTop: 22}}>
         <Text

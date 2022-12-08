@@ -15,15 +15,17 @@ export default App;
 
 // import {View, Text} from 'react-native';
 // import React, {useEffect} from 'react';
-// import {Push_Notification} from './src/fairbase/Push_Notification';
+// import ResentAddProduct from './src/dashboard/ResentAddProduct';
+// // import SigninFirebase from './src/trialFiles/SiginFirebase';
 
-// const App = () => {
-//   useEffect(() => {
-//     Push_Notification();
-//   }, []);
+// const App = ({navigation}) => {
 //   return (
 //     <>
-//       <Text>App</Text>
+//       {/* <SigninFirebase /> */}
+//       <ResentAddProduct />
+//       {/* <View>
+//         <Text>jkaf</Text>
+//       </View> */}
 //     </>
 //   );
 // };

@@ -1,36 +1,46 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text} from 'react-native';
-import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+import {Button, Text, View, TextInput} from 'react-native';
 
 const AuthWithFirebase = () => {
-  // Set an initializing state whilst Firebase connects
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
+  const [name, setName] = useState([]);
+  const [age, setAge] = useState(0);
+  //   const subscriber = firestore()
+  //     .collection('auth')
+  //     .doc('ZMUVUsFNKaudL6HVcPKN')
+  //     .onSnapshot(documentSnapshot => {
+  //       console.log('User data: ', documentSnapshot.data());
+  //     });
+  const subscriber = firestore()
+    .collection('auth')
+    .add({
+      name: {name},
+      age: {age},
+    })
+    .then(() => {
+      console.log('User added!');
+    });
 
-  // Handle user state changes
-  function onAuthStateChanged(user) {
-    setUser(user);
-    if (initializing) setInitializing(false);
-  }
+  //   useEffect(() => {
+  //     subscriber();
+  //   }, []);
 
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, []);
-
-  if (initializing) return null;
-
-  if (!user) {
-    return (
-      <View>
-        <Text>Login</Text>
-      </View>
-    );
-  }
+  // Stop listening for updates when no longer required
 
   return (
     <View>
-      <Text>Welcome {user.email}</Text>
+      <Text>Success</Text>
+      <TextInput
+        placeholder="name"
+        value={name}
+        onChangeText={text => setName(text)}
+      />
+      <TextInput
+        placeholder="age"
+        value={age}
+        onChangeText={text => setAge(text)}
+      />
+      <Button title="subscribe" onPress={text => subscriber()} />
     </View>
   );
 };

@@ -41,7 +41,11 @@ const LogoutUi = ({navigation}) => {
               <TouchableOpacity>
                 <Text
                   style={styles.chooseBtn}
-                  onPress={() => navigation.navigate('RegisterUi')}
+                  onPress={async () => {
+                    await auth()
+                      .signOut()
+                      .then(() => console.log('User signed out!'));
+                  }}
                 >
                   Yes
                 </Text>

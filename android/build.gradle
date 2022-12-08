@@ -26,18 +26,6 @@ buildscript {
         mavenCentral()
     }
  
-    //  firebase
-
-    plugins {
-    `id 'com.android.application'
-
-        // Add the Google services Gradle plugin
-    id 'com.google.gms.google-services'
-
-     ...
-    }
-
-
     dependencies {
         classpath("com.android.tools.build:gradle:7.0.4")
         classpath("com.facebook.react:react-native-gradle-plugin")

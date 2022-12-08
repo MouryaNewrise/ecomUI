@@ -9,23 +9,81 @@ import {
 import React, {useState} from 'react';
 import {Colors} from '../assets/Assets';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+
+GoogleSignin.configure({
+  webClientId:
+    '502041937470-33t9snimvv7i6jroeafadgqvg02irc6r.apps.googleusercontent.com',
+});
 
 const LoginUi = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [clicked, setClicked] = useState(true);
+  const [message, setMessage] = useState('');
 
   const passwordEyeIcon = () => {
     setClicked(!clicked);
   };
 
-  const submitFunction = () => {
-    if (!password && !email) {
-      Alert.alert('login Successful');
-      navigation.navigate('HomeUi');
+  const submitFunction0 = () => {
+    // if (!password && !email) {
+    //   Alert.alert('login Successful');
+    //   navigation.navigate('HomeUi');
+    // } else {
+    //   Alert.alert('for login enter email and password');
+    // }
+
+    const subscriber = firestore()
+      .collection('registration')
+      .orderBy(_email, _password)
+      .get({
+        email: {email},
+        password: {password},
+      })
+      .then(() => {
+        console.log('User login!');
+      });
+
+    if ((!email, !password)) {
+      alert('enter correct credentials');
     } else {
-      Alert.alert('for login enter email and password');
+      navigation.navigate('HomeUi');
     }
+    return subscriber;
+  };
+
+  const submitFunction = async () => {
+    try {
+      if (email.length > 0 && password.length > 0) {
+        await auth()
+          .signInWithEmailAndPassword(email, password)
+          .then(() => {
+            console.log('User signed');
+            navigation.navigate('HomeUi');
+          });
+      } else {
+        Alert.alert('pls enter email or password');
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage(error.message);
+    }
+  };
+
+  const loginWithGoogle = async () => {
+    // Check if your device supports Google Play
+    await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+    // Get the users ID token
+    const {idToken} = await GoogleSignin.signIn();
+
+    // Create a Google credential with the token
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+    // Sign-in the user with the credential
+    return auth().signInWithCredential(googleCredential);
   };
 
   return (
@@ -42,13 +100,15 @@ const LoginUi = ({navigation}) => {
           placeholderTextColor={Colors.darkPrimary}
           style={styles.inputStyle}
           placeholder="Email"
-          onChangeText={() => setEmail(email)}
+          value={email}
+          onChangeText={email => setEmail(email)}
         />
         <TextInput
           placeholderTextColor={Colors.darkPrimary}
           style={styles.inputStyle}
           placeholder="Password"
-          onChangeText={() => setPassword(password)}
+          value={password}
+          onChangeText={password => setPassword(password)}
           secureTextEntry={clicked}
         />
         <View style={styles.eyeContainer}>
@@ -64,6 +124,21 @@ const LoginUi = ({navigation}) => {
         <TouchableOpacity>
           <Text onPress={() => submitFunction()} style={styles.btnStyle}>
             Login
+          </Text>
+        </TouchableOpacity>
+        <View style={{padding: 5, marginTop: 10}}>
+          <Text style={{color: 'red'}}>{message}</Text>
+        </View>
+        <TouchableOpacity>
+          <Text
+            onPress={() =>
+              loginWithGoogle().then(() =>
+                console.log('Signed in with Google!'),
+              )
+            }
+            style={styles.btnStyle}
+          >
+            Login with Google
           </Text>
         </TouchableOpacity>
       </View>
