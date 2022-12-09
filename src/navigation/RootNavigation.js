@@ -16,6 +16,9 @@ import SettingUi from '../screen/SettingUi';
 import ViewOrder from '../screen/ViewOrder';
 import FavoriteUi from '../screen/FavoriteUi';
 import MyTabCart from '../screen/MyTabCart';
+import AddProduct from '../dashboard/AddProduct';
+import ResentAddProduct from '../dashboard/ResentAddProduct';
+import ViewProduct from '../dashboard/ViewProduct';
 
 const Stack = createNativeStackNavigator();
 
@@ -96,6 +99,21 @@ const RootNavigation = () => {
         <Stack.Screen
           name="MyTabCart"
           component={MyTabCart}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AddProduct"
+          component={AddProduct}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ResentAddProduct"
+          component={ResentAddProduct}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ViewProduct"
+          component={ViewProduct}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

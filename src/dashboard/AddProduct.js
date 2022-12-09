@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -19,7 +19,9 @@ import firestore from '@react-native-firebase/firestore';
 const {width} = Dimensions.get('window');
 
 const IMAGE_WIDTH = (width - 24) / 3;
-const AddProduct = ({navigation}) => {
+const AddProduct = item => {
+  const updateData = item.route.params;
+  const [query, setQuery] = useState([]);
   const [category, setCategory] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -83,19 +85,48 @@ const AddProduct = ({navigation}) => {
   const handleSubmit = () => {
     const subscriber = firestore()
       .collection('products')
-      //   .doc('Q0ioPMYDC2PudohTdkyO')
       .add({
         category: {category},
         title: {title},
         description: {description},
         price: {price},
-        images: {images},
+        // images: {images},
       })
       .then(() => {
         return subscriber;
       });
   };
 
+  const handleEditUpdate = async ({category, title, description, price}) => {
+    try {
+      const updateQuery = await firestore()
+        .collection('products')
+        .update({
+          category: item.category,
+          title: item.title,
+          price: item.price,
+          description: item.description,
+        })
+        .then(() => {
+          console.log('User updated!');
+          setQuery(updateQuery);
+          console.log('updateQuery', updateQuery);
+        });
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
+  useEffect(() => {
+    console.log('updateData', updateData);
+    console.log('updateData', updateData?.category?.category);
+    if (updateData) {
+      setCategory(updateData?.category?.category);
+      setTitle(updateData?.title?.title);
+      setTitle(updateData?.description?.description);
+      setTitle(updateData?.price?.price);
+    }
+  }, []);
   return (
     <>
       <View style={styles.headerContainer}>
@@ -107,7 +138,11 @@ const AddProduct = ({navigation}) => {
           </Text>
         </TouchableOpacity>
         <View>
-          <Text style={styles.headerText}>Add Products</Text>
+          {!updateData ? (
+            <Text style={styles.headerText}>Add Products</Text>
+          ) : (
+            <Text style={styles.headerText}>Update Products</Text>
+          )}
         </View>
         <TouchableOpacity>
           <Text
@@ -154,34 +189,58 @@ const AddProduct = ({navigation}) => {
           mode={'outlined'}
           style={{marginBottom: 10}}
         />
-        <SafeAreaView style={{}}>
-          <ScrollView>
-            <FlatList
-              data={images}
-              keyExtractor={(item, index) =>
-                (item?.filename ?? item?.path) + index
-              }
-              renderItem={renderItem}
-              numColumns={3}
-              style={{
-                height: 220,
-                borderWidth: 1,
-                backgroundColor: Colors.shadowColorAndroidDefault,
-              }}
-            />
-            <View style={styles.bottom}>
-              <TouchableOpacity style={styles.openPicker} onPress={openPicker}>
-                <Text style={styles.openText}>open</Text>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-        </SafeAreaView>
 
+        {/* <ScrollView>
+          <SafeAreaView style={{}}> */}
+        <FlatList
+          data={images}
+          keyExtractor={(item, index) => (item?.filename ?? item?.path) + index}
+          renderItem={renderItem}
+          numColumns={3}
+          style={{
+            height: 220,
+            borderWidth: 1,
+            backgroundColor: Colors.shadowColorAndroidDefault,
+          }}
+        />
+        <View style={styles.bottom}>
+          <TouchableOpacity style={styles.openPicker} onPress={openPicker}>
+            <Text style={styles.openText}>open</Text>
+          </TouchableOpacity>
+        </View>
+        {/* </SafeAreaView>
+        </ScrollView> */}
         <TouchableOpacity>
-          <Text style={styles.submitButton} onPress={() => handleSubmit()}>
+          {!updateData ? (
+            <Text
+              style={styles.submitButton}
+              onPress={() => {
+                handleSubmit();
+              }}
+            >
+              Submit
+            </Text>
+          ) : (
+            <Text
+              style={styles.submitButton}
+              onPress={() => {
+                handleEditUpdate(item);
+              }}
+            >
+              Update
+            </Text>
+          )}
+        </TouchableOpacity>
+        {/* <TouchableOpacity>
+          <Text
+            style={styles.submitButton}
+            onPress={() => {
+              handleSubmit();
+            }}
+          >
             Submit
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </>
   );
