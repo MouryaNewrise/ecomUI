@@ -6,30 +6,33 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Button,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Colors} from '../assets/Assets';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import auth from '@react-native-firebase/auth';
+import {Dropdown} from 'react-native-element-dropdown';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import firestore from '@react-native-firebase/firestore';
+const data = [
+  {label: 'Seller', value: '0'},
+  {label: 'Buyer', value: '1'},
+];
 
 const RegisterUi = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [cPassword, setCPassword] = useState('');
+
   const [clicked, setClicked] = useState(true);
   const [message, setMessage] = useState('');
+  const [userType, setUserType] = useState('');
+  const [isFocus, setIsFocus] = useState(false);
 
   const passwordEyeIcon = () => {
     setClicked(!clicked);
   };
-
-  //   const submitFunction = () => {
-  // if (!password === '' && !cPassword === password) {
-  //   Alert.alert('create account Successful');
-  // } else {
-  //   Alert.alert('should be password and Confirm password are same');
-  // }
-  //   };
 
   const handleSubscriber = async () => {
     try {
@@ -67,6 +70,35 @@ const RegisterUi = ({navigation}) => {
           borderRadius: 12,
         }}
       >
+        <Dropdown
+          style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={data}
+          search
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={!isFocus ? 'Select userType' : '...'}
+          searchPlaceholder="Search..."
+          value={userType}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          onChange={item => {
+            setUserType();
+            setIsFocus(false);
+          }}
+          renderLeftIcon={() => (
+            <AntDesign
+              style={styles.icon}
+              color={isFocus ? 'blue' : 'black'}
+              name="Safety"
+              size={20}
+            />
+          )}
+        />
         <TextInput
           placeholderTextColor={Colors.darkPrimary}
           style={styles.inputStyle}
@@ -109,6 +141,7 @@ const RegisterUi = ({navigation}) => {
       <View style={{padding: 5, marginTop: 10}}>
         <Text style={{color: 'red'}}>{message}</Text>
       </View>
+
       <View style={{marginTop: 22}}>
         <Text
           onPress={() => navigation.navigate('LoginUi')}
@@ -123,6 +156,11 @@ const RegisterUi = ({navigation}) => {
           without signUp shopping
         </Text>
       </View>
+      {/* <View>
+        <Text onPress={navigation.navigate('Users')}>
+          <AntDesign name="arrowleft" /> Create Account as a seller
+        </Text>
+      </View> */}
     </ScrollView>
   );
 };
@@ -152,8 +190,8 @@ const styles = StyleSheet.create({
   },
   eyeContainer: {
     position: 'absolute',
-    marginTop: 140,
-    marginLeft: 300,
+    marginTop: 175,
+    marginLeft: 320,
     zIndex: 2,
     // marginHorizontal: 20,
   },

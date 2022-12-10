@@ -1,4 +1,5 @@
 import {
+  Button,
   ScrollView,
   StyleSheet,
   Text,
@@ -19,7 +20,7 @@ const data = [
   {letter: 'E', title: 'arrived to buyer', isCurrent: true},
 ];
 
-const ViewOrder = () => {
+const ViewOrder = ({navigation}) => {
   const [clicked, setClicked] = useState(false);
   if (!data || data.length === 0) return null;
 

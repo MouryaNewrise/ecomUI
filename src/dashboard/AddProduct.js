@@ -90,14 +90,14 @@ const AddProduct = item => {
         title: {title},
         description: {description},
         price: {price},
-        // images: {images},
+        images: {images},
       })
       .then(() => {
         return subscriber;
       });
   };
 
-  const handleEditUpdate = async ({category, title, description, price}) => {
+  const handleEditUpdate = async () => {
     try {
       const updateQuery = await firestore()
         .collection('products')
@@ -123,8 +123,9 @@ const AddProduct = item => {
     if (updateData) {
       setCategory(updateData?.category?.category);
       setTitle(updateData?.title?.title);
-      setTitle(updateData?.description?.description);
-      setTitle(updateData?.price?.price);
+      setDescription(updateData?.description?.description);
+      setPrice(updateData?.price?.price);
+      setImages(updateData?.images?.images);
     }
   }, []);
   return (
@@ -154,10 +155,10 @@ const AddProduct = item => {
       </View>
       <View style={styles.container}>
         <TextInput
-          label="Category"
           placeholder="Product Category"
           value={category}
           onChangeText={text => setCategory(text)}
+          label="Category"
           outlineColor={'blue'}
           mode={'outlined'}
           style={{marginBottom: 10}}
@@ -231,16 +232,6 @@ const AddProduct = item => {
             </Text>
           )}
         </TouchableOpacity>
-        {/* <TouchableOpacity>
-          <Text
-            style={styles.submitButton}
-            onPress={() => {
-              handleSubmit();
-            }}
-          >
-            Submit
-          </Text>
-        </TouchableOpacity> */}
       </View>
     </>
   );

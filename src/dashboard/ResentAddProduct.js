@@ -15,6 +15,7 @@ import React, {useState, useEffect} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import {Colors, fonts} from '../assets/Assets';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import storage, {firebase} from '@react-native-firebase/storage';
 
 const ResentAddProduct = ({navigation}) => {
   const [getData, setGetData] = useState([]);
@@ -38,10 +39,6 @@ const ResentAddProduct = ({navigation}) => {
           getData.push({
             ...documentSnapshot.data(),
             id: documentSnapshot.id,
-            // title,
-            // category,
-            // description,
-            // price,
           });
           console.log(
             // 'User ID: ',
@@ -77,23 +74,30 @@ const ResentAddProduct = ({navigation}) => {
   return (
     <View>
       <View style={styles.headerContainer}>
-        <TouchableOpacity
-        // onPress={navigation.goBack()}
-        >
-          <Text>
-            <AntDesign name="arrowleft" color={'white'} size={30} />
-          </Text>
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity>
+            <Text>
+              <AntDesign
+                // onPress={navigation.goBack()}
+                name="arrowleft"
+                color={'white'}
+                size={30}
+              />
+            </Text>
+          </TouchableOpacity>
+        </View>
+
         <View>
           <Text style={styles.headerText}>Resent Add Products</Text>
         </View>
-        <TouchableOpacity>
-          <Text
-          //   onPress={navigation.navigate('MyDrawer')}
-          >
-            <AntDesign name="menufold" color={'white'} size={30} />
-          </Text>
-        </TouchableOpacity>
+
+        <View>
+          <TouchableOpacity>
+            <Text onPress={navigation.navigate('MyDrawer')}>
+              <AntDesign name="menufold" color={'white'} size={30} />
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <FlatList
         style={{marginBottom: 60}}
@@ -109,10 +113,6 @@ const ResentAddProduct = ({navigation}) => {
                     <Text>{item.category.category}</Text>
                     <Text>{item.description.description}</Text>
                     <Text>{item.price.price}</Text>
-                    {/* <Image
-                    source={{uri: item.images.images[0]}}
-                    style={{width: 120, height: 120, backgroundColor: 'pink'}}
-                  /> */}
                   </View>
                   <View style={styles.iconContainer}>
                     <AntDesign

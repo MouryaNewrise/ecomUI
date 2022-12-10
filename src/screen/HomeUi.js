@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  Button,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {Colors, fonts} from '../assets/Assets';
