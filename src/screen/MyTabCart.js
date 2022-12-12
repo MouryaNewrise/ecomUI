@@ -18,6 +18,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {Colors, fonts} from '../assets/Assets';
 import SocialIcon from '../components/Layout/SocialIcon';
 import {useDispatch, useSelector} from 'react-redux';
+import {findUserShowDetail} from '../redux/LoginFirbaseSlice';
+
 import {
   addToCartMy,
   removeAll,
@@ -31,6 +33,7 @@ const MyTabCart = ({navigation}) => {
   const tabCart = useSelector(state => state.wishlist.wishlist);
   const count = useSelector(state => state.wishlist.cartTotalQuantity);
   const total = useSelector(state => state.wishlist.cartTotalAmount);
+  const auth = useSelector(state => state.loginAuth);
 
   useEffect(() => {
     dispatch(getTotals());
@@ -139,13 +142,14 @@ const MyTabCart = ({navigation}) => {
       <View style={styles.paymentContainer}>
         <Text style={styles.totalStyle}>Total : ₹ {total.toFixed(2)} </Text>
         <TouchableOpacity
-          onPress={auth => {
-            if (!auth) {
+          onPress={() => {
+            if (auth) {
               navigation.navigate('MakePayment');
             } else {
               navigation.navigate('RegisterUi');
             }
           }}
+          //   onPress={() => navigation.navigate('MakePayment')}
           style={styles.makePayment}
         >
           <Text style={{color: Colors.white}}>

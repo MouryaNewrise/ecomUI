@@ -24,6 +24,7 @@ import Users from '../user/Users';
 const Stack = createNativeStackNavigator();
 
 const RootNavigation = () => {
+  //   console.log('userCredential', userCredential);
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="FirstScreen">

@@ -13,9 +13,7 @@ import React, {useState, useEffect} from 'react';
 import {Colors, fonts} from '../assets/Assets';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/AntDesign';
-// import {getProduct} from '../services/ProductServices';
 import {useDispatch, useSelector} from 'react-redux';
-import {addToCart} from '../redux/CartSlice';
 import {addToCartMy} from '../redux/AddToCartSlice';
 
 const width = Dimensions.get('window').width;
@@ -23,6 +21,7 @@ const height = Dimensions.get('window').height;
 
 const DetailUi = props => {
   const cart = useSelector(state => state.toCart.items);
+  const auth = useSelector(state => state.loginAuth);
   const dispatch = useDispatch();
   const {navigation} = props;
   const getData = props.route.params.itemId;
@@ -101,7 +100,11 @@ const DetailUi = props => {
         <TouchableOpacity
           style={styles.addCart}
           onPress={() => {
-            dispatch(addToCartMy(data));
+            if (!auth) {
+              dispatch(addToCartMy(data));
+            } else {
+              navigation.navigate('RegisterUi');
+            }
             // navigation.navigate('MyTabCart', {itemId: data.id});
           }}
         >

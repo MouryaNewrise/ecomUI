@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Colors} from '../assets/Assets';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import firestore from '@react-native-firebase/firestore';
+import firestore, {firebase} from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
@@ -23,6 +23,13 @@ const LoginUi = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [clicked, setClicked] = useState(true);
   const [message, setMessage] = useState('');
+  //   const user = firebase.auth().currentUser;
+
+  //   useEffect(() => {
+  //     if (user) {
+  //       console.log('User email: ', user);
+  //     }
+  //   }, [user]);
 
   const passwordEyeIcon = () => {
     setClicked(!clicked);
@@ -56,17 +63,17 @@ const LoginUi = ({navigation}) => {
   };
 
   const submitFunction = async () => {
+    if (email.length <= 0 && password.length <= 0) {
+      Alert.alert('pls enter email or password');
+      return;
+    }
     try {
-      if (email.length > 0 && password.length > 0) {
-        await auth()
-          .signInWithEmailAndPassword(email, password)
-          .then(() => {
-            console.log('User signed');
-            navigation.navigate('HomeUi');
-          });
-      } else {
-        Alert.alert('pls enter email or password');
-      }
+      await auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() => {
+          console.log('User signed');
+          navigation.navigate('HomeUi');
+        });
     } catch (error) {
       console.error(error);
       setMessage(error.message);

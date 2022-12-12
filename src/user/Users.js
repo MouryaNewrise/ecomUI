@@ -5,100 +5,63 @@ import {
   TouchableOpacity,
   Image,
   Button,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import {TextInput} from 'react-native-paper';
-import {ImagePicker} from 'react-native-image-picker';
 import {Colors, fonts} from '../assets/Assets';
 import {Dropdown} from 'react-native-element-dropdown';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useEffect} from 'react';
 const data = [
-  {label: 'Seller', value: '0'},
-  {label: 'Buyer', value: '1'},
+  {label: 'distributor', value: '0'},
+  {label: 'reseller', value: '1'},
 ];
 
-const Users = () => {
+const Users = props => {
+  const editData = props.route.params;
+  console.log('editData', editData);
   const initialState = {
     userName: '',
     userType: '',
-    avatar: '',
+    designation: '',
+    productCategory: '',
     email: '',
     password: '',
   };
 
   const [state, setState] = useState(initialState);
-  const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-
-  const [filePath, setFilePath] = useState({});
-
-  const chooseFile = () => {
-    let options = {
-      title: 'Select Image',
-      customButtons: [
-        {
-          name: 'customOptionKey',
-          title: 'Choose Photo from Custom Option',
-        },
-      ],
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    ImagePicker.showImagePicker(options, response => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-        alert(response.customButton);
-      } else {
-        let source = response;
-        // You can also display the image using data:
-        // let source = {
-        //   uri: 'data:image/jpeg;base64,' + response.data
-        // };
-        setFilePath(source);
-      }
-    });
-  };
+  const [clicked, setClicked] = useState(false);
 
   const handleRegistration = async () => {
     try {
       const subscriber = await firestore()
         .collection('users')
         .add({
-          avatar: 'avatar',
-          userName: 'userName',
-          userType: 'userType',
-          email: 'email',
-          password: 'password',
+          //   userName: state.userName,
+          //   userType: state.userType,
+          //   designation: state.designation,
+          //   productCategory: state.productCategory,
+          //   email: state.email,
+          //   password: state.password,
         })
         .then(() => {
-          return subscriber;
-          //   console.log('subscriber', subscriber);
+          //   return subscriber;
+          setState('');
+          Alert.alert('user register success ful');
+          console.log('subscriber', subscriber);
         });
     } catch (error) {
       console.log('error', error);
     }
   };
 
-  const renderLabel = () => {
-    if (value || isFocus) {
-      return (
-        <Text style={[styles.label, isFocus && {color: 'blue'}]}>
-          Dropdown label
-        </Text>
-      );
-    }
-    return null;
-  };
-
+  const handleUpdate = () => {};
+  useEffect(() => {
+    setState(() => editData);
+  }, []);
   return (
     <>
       <View style={styles.headerContainer}>
@@ -143,13 +106,13 @@ const Users = () => {
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? 'Select item' : '...'}
+          placeholder={!isFocus ? 'Select user type' : '...'}
           searchPlaceholder="Search..."
           value={state.userType}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={item => {
-            setState(item.value);
+            setState({...state, userType: item});
             setIsFocus(false);
           }}
           renderLeftIcon={() => (
@@ -164,10 +127,12 @@ const Users = () => {
         <TextInput
           placeholderTextColor={Colors.darkPrimary}
           // style={styles.inputStyle}
-          placeholder="Enter correct Email"
-          value={state.email}
-          onChangeText={gmail => setState({...state, email: gmail})}
-          label="email"
+          placeholder="user designation"
+          value={state.designation}
+          onChangeText={designation =>
+            setState({...state, designation: designation})
+          }
+          label="designation"
           outlineColor={'blue'}
           mode={'outlined'}
           style={{marginBottom: 10}}
@@ -175,38 +140,76 @@ const Users = () => {
         <TextInput
           placeholderTextColor={Colors.darkPrimary}
           // style={styles.inputStyle}
-          placeholder="Create Password"
+          placeholder="user register email"
+          value={state.email}
+          onChangeText={email => setState({...state, email: email})}
+          label="user email"
+          outlineColor={'blue'}
+          mode={'outlined'}
+          style={{marginBottom: 10}}
+        />
+        <TextInput
+          placeholderTextColor={Colors.darkPrimary}
+          // style={styles.inputStyle}
+          placeholder="create password"
           value={state.password}
-          onChangeText={pass => setState({...state, password: pass})}
+          onChangeText={password => setState({...state, password: password})}
           label="password"
           outlineColor={'blue'}
           mode={'outlined'}
           style={{marginBottom: 10}}
-          secureTextEntry={true}
         />
-        <View style={{flexDirection: 'row', marginBottom: 10}}>
-          <TouchableOpacity
-            style={{backgroundColor: 'deeppink', height: 50, width: 150}}
-            activeOpacity={0.5}
-            onPress={chooseFile}
-          >
-            <Text
-              style={{
-                textAlign: 'center',
-                color: 'white',
-                fontSize: 20,
-                marginTop: 10,
-              }}
-            >
-              Choose Image
-            </Text>
-          </TouchableOpacity>
-          <View>
-            <Text style={styles.textStyle}>Image url{filePath.uri}</Text>
-          </View>
-        </View>
-        <Image source={{uri: filePath.uri}} style={styles.imageStyle} />
+        <TextInput
+          placeholderTextColor={Colors.darkPrimary}
+          // style={styles.inputStyle}
+          placeholder="what product you want to sell"
+          value={state.productCategory}
+          onChangeText={pass => setState({...state, productCategory: pass})}
+          label="product category for sell"
+          outlineColor={'blue'}
+          mode={'outlined'}
+          style={{marginBottom: 10}}
+        />
 
+        {/* <View style={{marginTop: 215, position: 'absolute', marginLeft: 345}}>
+          <Text onPress={() => setClicked(clicked)}>
+            <AntDesign name="plus" size={30} color="deepskyblue" />
+          </Text>
+        </View> */}
+        <TextInput
+          placeholderTextColor={Colors.darkPrimary}
+          // style={styles.inputStyle}
+          placeholder="product category 1"
+          value={state.productCategory}
+          onChangeText={pass => setState({...state, productCategory: pass})}
+          label="product category"
+          outlineColor={'blue'}
+          mode={'outlined'}
+          style={{marginBottom: 10}}
+        />
+
+        <TextInput
+          placeholderTextColor={Colors.darkPrimary}
+          // style={styles.inputStyle}
+          placeholder="product category 2"
+          value={state.productCategory}
+          onChangeText={pass => setState({...state, productCategory: pass})}
+          label="product category"
+          outlineColor={'blue'}
+          mode={'outlined'}
+          style={{marginBottom: 10}}
+        />
+        <TextInput
+          placeholderTextColor={Colors.darkPrimary}
+          // style={styles.inputStyle}
+          placeholder="product category 3"
+          value={state.productCategory}
+          onChangeText={pass => setState({...state, productCategory: pass})}
+          label="product category"
+          outlineColor={'blue'}
+          mode={'outlined'}
+          style={{marginBottom: 10}}
+        />
         <TouchableOpacity>
           <Text
             style={styles.submitButton}

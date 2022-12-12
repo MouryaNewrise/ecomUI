@@ -45,8 +45,10 @@ const allCategory = [
     category: 'Woman',
   },
 ];
+
 const HomeUi = ({navigation}) => {
   const collection = useSelector(state => state.product.data);
+  const auth = useSelector(state => state.loginAuth);
   const dispatch = useDispatch();
   const [filter, setFilter] = useState('all');
   const [liked, setLiked] = useState([]);
@@ -127,7 +129,7 @@ const HomeUi = ({navigation}) => {
                 <ScrollView style={styles.collectionView}>
                   <TouchableOpacity
                     onPress={() => {
-                      {
+                      if (!auth) {
                         if (liked.includes(index)) {
                           let unLiked = liked.filter(
                             likeNum => likeNum !== index,
@@ -139,6 +141,9 @@ const HomeUi = ({navigation}) => {
 
                           setLiked([...liked, index]);
                         }
+                      } else {
+                        Alert.alert('login first');
+                        navigation.navigate('RegisterUi');
                       }
                     }}
                     style={styles.iconStyContainer}

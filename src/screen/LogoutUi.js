@@ -9,9 +9,22 @@ import {
 import React, {useEffect, useState} from 'react';
 import {Colors, fonts} from '../assets/Assets';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import auth, {firebase} from '@react-native-firebase/auth';
+import {useSelector} from 'react-redux';
 
 const LogoutUi = ({navigation}) => {
+  //   const user = useSelector(state => state.loginAuth.loginUser);
+  //   console.log('user', user);
   const [modal, setModal] = useState(false);
+  const [message, setMessage] = useState('');
+  const [errorSMS, setErrorSMS] = useState('');
+  const [userEmail, setUserEmail] = useState([]);
+
+  const user1 = firebase.auth().currentUser;
+  if (user1) {
+    console.log('User email: ', user1.email);
+    // return setUserEmail(user1.email);
+  }
   return (
     <View style={{flex: 1}}>
       <View style={styles.btnContainer}>
@@ -34,17 +47,32 @@ const LogoutUi = ({navigation}) => {
         }}
       >
         <View style={styles.container}>
+          <View>
+            <Text>{message && <Text>{message}</Text>}</Text>
+          </View>
+
           <View style={styles.viewContainer}>
-            <Text style={styles.wishStyle}>Peter Do you want to Logout</Text>
-            <Text style={styles.secWishStyle}>Your Account</Text>
+            <Text style={styles.wishStyle}> Do you want to Logout</Text>
+            <Text style={styles.secWishStyle}> from Your Account</Text>
             <View style={styles.chooseBtnContainer}>
               <TouchableOpacity>
                 <Text
                   style={styles.chooseBtn}
                   onPress={async () => {
-                    await auth()
-                      .signOut()
-                      .then(() => console.log('User signed out!'));
+                    try {
+                      await auth()
+                        .signOut()
+                        .then(() => {
+                          console.log('User signed out!');
+                          setMessage('Logout Successfully');
+                          setTimeout(() => {
+                            navigation.navigate('FirstScreen');
+                          }, 3000);
+                        });
+                    } catch (error) {
+                      console.log('ThatError', error);
+                      setErrorSMS(error.message);
+                    }
                   }}
                 >
                   Yes
@@ -61,6 +89,20 @@ const LogoutUi = ({navigation}) => {
                 </Text>
               </TouchableOpacity>
             </View>
+            <Text>
+              {errorSMS && (
+                <Text
+                  style={{
+                    color: 'red',
+                    backgroundColor: Colors.lightGray,
+                    fontSize: 16,
+                    // flex: 1,
+                  }}
+                >
+                  {errorSMS}
+                </Text>
+              )}
+            </Text>
           </View>
         </View>
       </Modal>

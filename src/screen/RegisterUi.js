@@ -27,6 +27,7 @@ const RegisterUi = ({navigation}) => {
 
   const [clicked, setClicked] = useState(true);
   const [message, setMessage] = useState('');
+  const [success, setSuccess] = useState('');
   const [userType, setUserType] = useState('');
   const [isFocus, setIsFocus] = useState(false);
 
@@ -40,8 +41,21 @@ const RegisterUi = ({navigation}) => {
         await auth()
           .createUserWithEmailAndPassword(email, password)
           .then(() => {
+            firestore().collection('registration').add({
+              userType: {userType},
+              email: {email},
+              password: {password},
+            });
+          })
+          .then(() => {
+            setUserType('');
+            setEmail('');
+            setPassword('');
+            setTimeout(() => {
+              navigation.navigate('LoginUi');
+            }, 3000);
+            setSuccess('registration successful ');
             console.log('User signed');
-            navigation.navigate('HomeUi');
           });
       } else {
         Alert.alert('pls enter email or password');
@@ -61,7 +75,18 @@ const RegisterUi = ({navigation}) => {
           color={Colors.darkPlaceHoldColor}
         />
       </View>
-
+      {!success && (
+        <Text
+          style={{
+            color: 'green',
+            padding: 8,
+            fontSize: 14,
+            backgroundColor: Colors.ultraLightPrimary,
+          }}
+        >
+          {success}
+        </Text>
+      )}
       <View
         style={{
           backgroundColor: 'white',
@@ -87,7 +112,7 @@ const RegisterUi = ({navigation}) => {
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={item => {
-            setUserType();
+            setUserType(item);
             setIsFocus(false);
           }}
           renderLeftIcon={() => (
@@ -156,11 +181,11 @@ const RegisterUi = ({navigation}) => {
           without signUp shopping
         </Text>
       </View>
-      {/* <View>
-        <Text onPress={navigation.navigate('Users')}>
+      <View>
+        <Text onPress={() => navigation.navigate('Users')}>
           <AntDesign name="arrowleft" /> Create Account as a seller
         </Text>
-      </View> */}
+      </View>
     </ScrollView>
   );
 };

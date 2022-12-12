@@ -6,6 +6,7 @@ import {
   Image,
   Modal,
   Alert,
+  Button,
 } from 'react-native';
 import React, {useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -17,9 +18,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import CashPayment from './CashPayment';
 
 const MakePayment = ({navigation}) => {
+  //   console.log('userCredential', userCredential);
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <>
+      <Button
+        title="checkUser"
+        onPress={() => dispatch(findUserShowDetail())}
+      />
       <View style={styles.mainContainer}>
         <View style={styles.rowDirection}>
           <Text style={styles.newCollection}>MakePayment</Text>
