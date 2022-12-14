@@ -116,7 +116,7 @@ const CartUi = ({navigation, route}) => {
         <View style={styles.paymentContainer}>
           <Text style={styles.totalStyle}>Total : {data.price * counter}</Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('MakePayment')}
+            onPress={() => navigation.navigate('MakePayment', data)}
             style={styles.makePayment}
           >
             <Text style={{color: Colors.white}}>

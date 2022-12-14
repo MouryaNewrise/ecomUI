@@ -10,6 +10,7 @@ import {
   TextInput,
   Alert,
   Button,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {Colors, fonts} from '../assets/Assets';
@@ -19,7 +20,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchData} from '../redux/ProductSlice';
 import {addToFav, removeToFav} from '../redux/CartSlice';
-
+import {firebase} from '@react-native-firebase/firestore';
 const width = Dimensions.get('window').width;
 
 const allCategory = [
@@ -52,8 +53,26 @@ const HomeUi = ({navigation}) => {
   const dispatch = useDispatch();
   const [filter, setFilter] = useState('all');
   const [liked, setLiked] = useState([]);
-  const [search, setSearch] = useState([]);
+  const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(false);
 
+  //   const searchFunction = () => {
+  //     collection.filter(post => {
+  //       if (search === '') {
+  //         console.log('post1', post);
+  //         setSearch(post);
+  //       } else if (post.title.toLowerCase().includes(search.toLowerCase())) {
+  //         console.log('post2', post);
+  //         setSearch(post);
+  //       }
+  //     });
+  //   };
+
+  const user = firebase.auth().currentUser;
+  if (user == 0) {
+    console.log('User email: ', user.email);
+    Alert.alert('user login');
+  }
   useEffect(() => {
     dispatch(fetchData());
   });
@@ -72,10 +91,10 @@ const HomeUi = ({navigation}) => {
             </TouchableOpacity>
             <TextInput
               style={styles.searchContainer}
-              placeholder="Search..."
+              placeholder="Search category wise..."
               placeholderTextColor={Colors.darkPlaceHoldColor}
-              onChangeText={text => setSearch(text)}
-              //   value={search}
+              onChangeText={aim => setSearch(aim)}
+              value={search}
             />
             <EvilIcons
               style={styles.searchIconStyle}
@@ -94,31 +113,38 @@ const HomeUi = ({navigation}) => {
           >
             All
           </Text>
-          <FlatList
-            data={allCategory}
-            idExtractor={id => {
-              id.id;
-            }}
-            renderItem={({item}) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => setFilter(item.key)}
-                  style={styles.itemView}
-                >
-                  <Text style={styles.categoryView}>{item.category}</Text>
-                </TouchableOpacity>
-              );
-            }}
-            horizontal={true}
-          />
+          {loading ? (
+            <Text>Loading ...</Text>
+          ) : (
+            <FlatList
+              data={allCategory}
+              idExtractor={id => {
+                id.id;
+              }}
+              renderItem={({item}) => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => setFilter(item.key)}
+                    style={styles.itemView}
+                  >
+                    <Text style={styles.categoryView}>{item.category}</Text>
+                  </TouchableOpacity>
+                );
+              }}
+              horizontal={true}
+            />
+          )}
         </View>
         <Text style={styles.newCollection}>New Collection</Text>
         <View style={styles.FlatListView}>
           <FlatList
             data={
-              filter == 'all'
-                ? collection
-                : collection.filter(e => e.category == filter, search)
+              // filter == 'all'
+              //   ? collection
+              //   : collection.filter(e => e.category == filter)
+              collection?.filter(aim =>
+                aim?.title?.toLowerCase().includes(search.toLowerCase()),
+              )
             }
             numColumns={2}
             idExtractor={id => {
@@ -129,7 +155,7 @@ const HomeUi = ({navigation}) => {
                 <ScrollView style={styles.collectionView}>
                   <TouchableOpacity
                     onPress={() => {
-                      if (!auth) {
+                      if (user) {
                         if (liked.includes(index)) {
                           let unLiked = liked.filter(
                             likeNum => likeNum !== index,
@@ -169,10 +195,7 @@ const HomeUi = ({navigation}) => {
                       />
                     </View>
                   </TouchableOpacity>
-
-                  <Text style={styles.categoryStyle}>
-                    {item.category.includes(search)}
-                  </Text>
+                  <Text style={styles.categoryStyle}>{item.category}</Text>
                   <Text style={styles.titleStyle}>
                     {item.title == 25 ? item.title : item.title.slice(0, 20)}
                   </Text>

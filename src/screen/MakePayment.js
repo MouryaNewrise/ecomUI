@@ -16,16 +16,17 @@ import {Colors, fonts} from '../assets/Assets';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import CashPayment from './CashPayment';
+import {useSelector} from 'react-redux';
 
 const MakePayment = ({navigation}) => {
   //   console.log('userCredential', userCredential);
+
   const [modalVisible, setModalVisible] = useState(false);
+  const counter = useSelector(state => state.product.value);
+
+  //   console.log('counter', counter);
   return (
     <>
-      <Button
-        title="checkUser"
-        onPress={() => dispatch(findUserShowDetail())}
-      />
       <View style={styles.mainContainer}>
         <View style={styles.rowDirection}>
           <Text style={styles.newCollection}>MakePayment</Text>

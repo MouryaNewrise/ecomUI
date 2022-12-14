@@ -8,15 +8,17 @@ import {
 } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {fonts, Colors} from '../../assets/Assets';
 
 const width = Dimensions.get('window').width;
 
-const Header = (search, setSearch) => {
+const Header = ({text}) => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.headerFlex}>
-        <TouchableOpacity>
+        <Text style={styles.myFavText}>{text}</Text>
+        {/* <TouchableOpacity>
           <Icon style={styles.menuIconStyle} name="menu-outline" size={35} />
         </TouchableOpacity>
         <TextInput
@@ -25,13 +27,13 @@ const Header = (search, setSearch) => {
           placeholder="Search..."
           placeholderTextColor={'black'}
           onChangeText={e => setSearch(e)}
-        />
-        <EvilIcons
+        /> */}
+        {/* <AntDesign
           style={styles.searchIconStyle}
-          name="search"
+          name="arrowleft"
           size={30}
           color={'black'}
-        />
+        /> */}
       </View>
     </View>
   );
@@ -67,5 +69,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#e5e5e5',
     borderRadius: 10,
     padding: 3,
+  },
+  myFavText: {
+    fontFamily: fonts.medium,
+    fontSize: 25,
+    color: Colors.black,
+    fontWeight: '700',
   },
 });

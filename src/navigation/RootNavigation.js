@@ -20,6 +20,7 @@ import AddProduct from '../dashboard/AddProduct';
 import ResentAddProduct from '../dashboard/ResentAddProduct';
 import ViewProduct from '../dashboard/ViewProduct';
 import Users from '../user/Users';
+import WelcomeScreen from '../dashboard/WelcomeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -121,6 +122,11 @@ const RootNavigation = () => {
         <Stack.Screen
           name="Users"
           component={Users}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="WelcomeScreen"
+          component={WelcomeScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

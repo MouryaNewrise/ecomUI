@@ -15,17 +15,12 @@ export default App;
 
 // import {View, Text} from 'react-native';
 // import React, {useEffect} from 'react';
-// import ResentAddProduct from './src/dashboard/ResentAddProduct';
-// // import SigninFirebase from './src/trialFiles/SiginFirebase';
+// import WelcomeScreen from './src/dashboard/WelcomeScreen';
 
-// const App = ({navigation}) => {
+// const App = () => {
 //   return (
 //     <>
-//       {/* <SigninFirebase /> */}
-//       <ResentAddProduct />
-//       {/* <View>
-//         <Text>jkaf</Text>
-//       </View> */}
+//       <WelcomeScreen />
 //     </>
 //   );
 // };

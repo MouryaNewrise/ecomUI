@@ -32,8 +32,18 @@ const ViewOrder = ({navigation}) => {
   return (
     <>
       <Banner />
-      <ScrollView style={{flex: 1, margin: 10}}>
+      <View
+        style={{
+          position: 'absolute',
+          //   backgroundColor: Colors.shadowColorAndroidDefault,
+          marginTop: 250,
+          marginHorizontal: 20,
+        }}
+      >
         <Text style={styles.liveTextStyle}>Live Tracking your Product</Text>
+      </View>
+
+      <ScrollView style={{flex: 1, margin: 10, marginTop: -250}}>
         <View style={styles.verticalLine}></View>
         <View style={styles.verticalWrap}>
           <View style={styles.itemWrap}>
@@ -126,6 +136,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Colors.black,
     fontWeight: '600',
+    // alignSelf: 'center',
   },
   actionStyle: {
     fontFamily: fonts.regular,

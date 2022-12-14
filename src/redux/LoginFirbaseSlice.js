@@ -2,7 +2,6 @@ import {firebase} from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {createSlice} from '@reduxjs/toolkit';
 
-const user = firebase.auth().currentUser;
 const initialState = {
   loginUser: [],
 };
@@ -12,10 +11,7 @@ export const LoginFirebaseSlice = createSlice({
   initialState,
   reducers: {
     findUserShowDetail: (state, action) => {
-      if (user) {
-        console.log('User email: ', user);
-        state.loginUser = action.payload;
-      }
+      state.loginUser = action.payload;
     },
   },
 });

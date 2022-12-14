@@ -8,7 +8,7 @@ import {
   View,
   Button,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Colors} from '../assets/Assets';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import auth from '@react-native-firebase/auth';
@@ -81,7 +81,10 @@ const RegisterUi = ({navigation}) => {
             color: 'green',
             padding: 8,
             fontSize: 14,
-            backgroundColor: Colors.ultraLightPrimary,
+            backgroundColor: success ? Colors.ultraLightPrimary : null,
+            marginBottom: 10,
+            borderRadius: 5,
+            height: 50,
           }}
         >
           {success}
@@ -167,25 +170,25 @@ const RegisterUi = ({navigation}) => {
         <Text style={{color: 'red'}}>{message}</Text>
       </View>
 
-      <View style={{marginTop: 22}}>
+      <View>
         <Text
           onPress={() => navigation.navigate('LoginUi')}
           style={styles.btnStyle}
         >
           if are you register user Sign In
         </Text>
-        <Text
+        {/* <Text
           style={styles.btnStyle}
           onPress={() => navigation.navigate('HomeUi')}
         >
           without signUp shopping
-        </Text>
+        </Text> */}
       </View>
-      <View>
+      {/* <View>
         <Text onPress={() => navigation.navigate('Users')}>
           <AntDesign name="arrowleft" /> Create Account as a seller
         </Text>
-      </View>
+      </View> */}
     </ScrollView>
   );
 };
@@ -216,7 +219,7 @@ const styles = StyleSheet.create({
   eyeContainer: {
     position: 'absolute',
     marginTop: 175,
-    marginLeft: 320,
+    marginLeft: 300,
     zIndex: 2,
     // marginHorizontal: 20,
   },

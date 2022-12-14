@@ -20,11 +20,11 @@ const LogoutUi = ({navigation}) => {
   const [errorSMS, setErrorSMS] = useState('');
   const [userEmail, setUserEmail] = useState([]);
 
-  const user1 = firebase.auth().currentUser;
-  if (user1) {
-    console.log('User email: ', user1.email);
-    // return setUserEmail(user1.email);
-  }
+  //   const user1 = firebase.auth().currentUser;
+  //   if (user1) {
+  //     console.log('User email: ', user1.email, user1.userType);
+  //     // return setUserEmail(user1.email);
+  //   }
   return (
     <View style={{flex: 1}}>
       <View style={styles.btnContainer}>
@@ -47,8 +47,16 @@ const LogoutUi = ({navigation}) => {
         }}
       >
         <View style={styles.container}>
-          <View>
-            <Text>{message && <Text>{message}</Text>}</Text>
+          <View
+            style={{
+              backgroundColor: message
+                ? Colors.shadowColorAndroidPrimary
+                : null,
+            }}
+          >
+            <Text style={{color: 'green', fontSize: 18, padding: 15}}>
+              {message && <Text>{message}</Text>}
+            </Text>
           </View>
 
           <View style={styles.viewContainer}>

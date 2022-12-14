@@ -15,6 +15,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
 import {addToCartMy} from '../redux/AddToCartSlice';
+import {firebase} from '@react-native-firebase/firestore';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -27,6 +28,11 @@ const DetailUi = props => {
   const getData = props.route.params.itemId;
   const [data, setData] = useState([]);
 
+  const user = firebase.auth().currentUser;
+  if (user == 0) {
+    console.log('User email: ', user.email);
+    Alert.alert('required use login');
+  }
   console.log('data', cart);
   useEffect(() => {
     fetch(`https://fakestoreapi.com/products/${getData}`)
@@ -100,8 +106,9 @@ const DetailUi = props => {
         <TouchableOpacity
           style={styles.addCart}
           onPress={() => {
-            if (!auth) {
+            if (user) {
               dispatch(addToCartMy(data));
+              Alert.alert('product add to cart successfully');
             } else {
               navigation.navigate('RegisterUi');
             }

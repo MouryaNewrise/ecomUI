@@ -15,6 +15,8 @@ import {Colors, fonts} from '../assets/Assets';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MultipleImagePicker from '@baronha/react-native-multiple-image-picker';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import {utils} from '@react-native-firebase/app';
 
 const {width} = Dimensions.get('window');
 
@@ -26,8 +28,11 @@ const AddProduct = item => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState(null);
+  const [state, setState] = useState('');
+  const [isLoading, setIsLoading] = useState('');
 
+  console.log('filePath', utils.FilePath.PICTURES_DIRECTORY);
   const openPicker = async () => {
     try {
       const response = await MultipleImagePicker.openPicker({
@@ -62,10 +67,7 @@ const AddProduct = item => {
         <Image
           width={IMAGE_WIDTH}
           source={{
-            uri:
-              item?.type === 'video'
-                ? item?.thumbnail ?? ''
-                : 'file://' + (item?.crop?.cropPath ?? item.path),
+            uri: item?.path,
           }}
           style={styles.media}
         />
@@ -117,9 +119,30 @@ const AddProduct = item => {
     }
   };
 
+  const uploadImageToStorage = () => {
+    setState({isLoading: true});
+    let reference = storage().ref();
+    let task = reference.putFile();
+
+    console.log('name', images.path);
+    console.log('task', task);
+    console.log('reference', reference);
+    task
+      .then(() => {
+        console.log('Image uploaded to the bucket!');
+        setState({
+          isLoading: false,
+          //   status: 'Image uploaded successfully',
+        });
+      })
+      .catch(e => {
+        // status = 'Something went wrong';
+        console.log('uploading image error => ', e);
+        setState({isLoading: false, status: 'Something went wrong'});
+      });
+  };
+
   useEffect(() => {
-    console.log('updateData', updateData);
-    console.log('updateData', updateData?.category?.category);
     if (updateData) {
       setCategory(updateData?.category?.category);
       setTitle(updateData?.title?.title);
@@ -205,8 +228,25 @@ const AddProduct = item => {
           }}
         />
         <View style={styles.bottom}>
-          <TouchableOpacity style={styles.openPicker} onPress={openPicker}>
+          <TouchableOpacity
+            style={styles.openPicker}
+            onPress={() => openPicker()}
+          >
             <Text style={styles.openText}>open</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.openPicker}
+            // onPress={uploadImageToStorage}
+            onPress={async () => {
+              // path to existing file on filesystem
+              const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/Download/${images}`;
+              let reference = storage().ref('lastpro-8de23.appspot.com');
+              // uploads file
+              await reference.putFile(pathToFile);
+              //   console.log('pathToFile', pathToFile);
+            }}
+          >
+            <Text style={styles.openText}>Upload</Text>
           </TouchableOpacity>
         </View>
         {/* </SafeAreaView>
@@ -282,6 +322,8 @@ const styles = StyleSheet.create({
   },
   bottom: {
     padding: 24,
+    justifyContent: 'space-evenly',
+    flexDirection: 'row',
   },
   openText: {
     fontWeight: 'bold',
@@ -293,6 +335,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#000',
+    width: 150,
   },
   buttonDelete: {
     paddingVertical: 4,

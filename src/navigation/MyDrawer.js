@@ -11,9 +11,18 @@ import ViewOrder from '../screen/ViewOrder';
 import HomeUi from '../screen/HomeUi';
 import AddProduct from '../dashboard/AddProduct';
 import ResentAddProduct from '../dashboard/ResentAddProduct';
+import auth from '@react-native-firebase/auth';
+import {firebase} from '@react-native-firebase/firestore';
+import WelcomeScreen from '../dashboard/WelcomeScreen';
+import ChatFirebase from '../dashboard/ChatFirebase';
 
 const Drawer = createDrawerNavigator();
-
+const user = firebase.auth().currentUser;
+if (user == 0) {
+  //   console.log('User email: ', user.email, user.userType.userType.label);
+  console.log('user', user);
+  // return setUserEmail(user1.email);
+}
 export default function MyDrawer() {
   return (
     <Drawer.Navigator
@@ -33,49 +42,54 @@ export default function MyDrawer() {
         activeTintColor: 'white',
       }}
     >
-      <Drawer.Screen
-        name="SignUp/Login"
-        component={RegisterUi}
-        // options={{
-        //   drawerIcon: ({focused, size}) => (
-        //     <Ionicons
-        //       name="md-home"
-        //       size={size}
-        //       color={focused ? '#7cc' : '#ccc'}
-        //     />
-        //   ),
-        // }}
-      />
-      <Drawer.Screen
-        options={{headerShown: false}}
-        name="Home"
-        component={HomeUi}
-      />
-      <Drawer.Screen
-        options={{headerShown: false}}
-        name="Settings"
-        component={SettingUi}
-      />
-      <Drawer.Screen
-        options={{headerShown: false}}
-        name="Add Product"
-        component={AddProduct}
-      />
-      <Drawer.Screen
-        options={{headerShown: false}}
-        name="Resent Add Product"
-        component={ResentAddProduct}
-      />
-      <Drawer.Screen
-        // options={{headerShown: false}}
-        name="View Order"
-        component={ViewOrder}
-      />
-      <Drawer.Screen
-        options={{headerShown: false}}
-        name="Logout"
-        component={LogoutUi}
-      />
+      {!user ? (
+        <Drawer.Screen name="SignUp/Login" component={RegisterUi} />
+      ) : (
+        <Drawer.Screen name="Welcome" component={WelcomeScreen} />
+      )}
+      {user && (
+        <Drawer.Screen
+          options={{headerShown: false}}
+          name="Settings"
+          component={SettingUi}
+        />
+      )}
+      {user && (
+        <Drawer.Screen
+          options={{headerShown: false}}
+          name="Add Product"
+          component={AddProduct}
+        />
+      )}
+      {user && (
+        <Drawer.Screen
+          options={{headerShown: false}}
+          name="Resent Add Product"
+          component={ResentAddProduct}
+        />
+      )}
+
+      {user && (
+        <Drawer.Screen
+          // options={{headerShown: false}}
+          name="View Order"
+          component={ViewOrder}
+        />
+      )}
+      {user && (
+        <Drawer.Screen
+          // options={{headerShown: false}}
+          name="Chat Support"
+          component={ChatFirebase}
+        />
+      )}
+      {user && (
+        <Drawer.Screen
+          options={{headerShown: false}}
+          name="Logout"
+          component={LogoutUi}
+        />
+      )}
     </Drawer.Navigator>
   );
 }

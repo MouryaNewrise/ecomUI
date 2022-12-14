@@ -22,12 +22,11 @@ import {addToCartMy, removeItem} from '../redux/AddToCartSlice';
 import {removeToFav} from '../redux/CartSlice';
 
 const FavoriteUi = props => {
+  const [search, setSearch] = useState('');
   const {navigation} = props;
   //   const getData = props.route.params.itemId;
   const dispatch = useDispatch();
   const FavData = useSelector(state => state.toCart.items);
-
-  const [search, setSearch] = useState('');
 
   useEffect(() => {
     dispatch(fetchData());
@@ -35,8 +34,7 @@ const FavoriteUi = props => {
 
   return (
     <View style={{flex: 1}}>
-      <Header search={search} setSearch={setSearch} />
-      <Text style={styles.myFavText}>My Favorite</Text>
+      <Header text="My Favorite" />
       <ImageBackground>
         <Image
           style={styles.wishList}
@@ -96,13 +94,6 @@ const FavoriteUi = props => {
 export default FavoriteUi;
 
 const styles = StyleSheet.create({
-  myFavText: {
-    padding: 20,
-    fontFamily: fonts.medium,
-    fontSize: 25,
-    color: Colors.black,
-    fontWeight: '700',
-  },
   imageContainer: {
     justifyContent: 'space-between',
     flexDirection: 'row',

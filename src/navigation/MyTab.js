@@ -10,6 +10,9 @@ import ProfileUi from '../screen/ProfileUi';
 import {Colors} from '../assets/Assets';
 import MyTabCart from '../screen/MyTabCart';
 import {useSelector} from 'react-redux';
+import MyDrawer from './MyDrawer';
+import auth from '@react-native-firebase/auth';
+import {firebase} from '@react-native-firebase/database';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,6 +20,11 @@ const MyTab = () => {
   const like = useSelector(state => state.toCart.items);
   const tabCart = useSelector(state => state.wishlist.wishlist);
 
+  const user1 = firebase.auth().currentUser;
+  if (user1) {
+    console.log('User email: ', user1.email, user1.userType);
+    // return setUserEmail(user1.email);
+  }
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -63,17 +71,33 @@ const MyTab = () => {
           tabBarBadge: tabCart.length,
         }}
       />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileUi}
-        options={{
-          tabBarLabel: 'Profile',
-          tabBarIcon: ({color, size}) => (
-            <AntDesign name="user" color={color} size={size} />
-          ),
-          headerShown: false,
-        }}
-      />
+      {!user1 ? (
+        <Tab.Screen
+          name="MyDrawer"
+          component={MyDrawer}
+          options={{
+            tabBarLabel: 'MyDrawer',
+            tabBarIcon: ({color, size}) => (
+              <AntDesign name="bars" color={color} size={size} />
+            ),
+
+            headerShown: false,
+          }}
+        />
+      ) : (
+        <Tab.Screen
+          name="Profile"
+          component={ProfileUi}
+          options={{
+            tabBarLabel: 'Profile',
+            tabBarIcon: ({color, size}) => (
+              <AntDesign name="user" color={color} size={size} />
+            ),
+
+            headerShown: false,
+          }}
+        />
+      )}
     </Tab.Navigator>
   );
 };

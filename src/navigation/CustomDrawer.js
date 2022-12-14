@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, Alert} from 'react-native';
 import React from 'react';
 import {
   DrawerContentScrollView,
@@ -6,11 +6,17 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import {Colors, fonts} from '../assets/Assets';
+import {firebase} from '@react-native-firebase/firestore';
 
 const CustomDrawer = props => {
+  const user = firebase.auth().currentUser;
+  if (user == 0) {
+    Alert.alert('required user login');
+    console.log('user drawer', user.email);
+  }
   return (
     <DrawerContentScrollView
-      style={{backgroundColor: Colors.shadowColorAndroidDefault}}
+      style={{backgroundColor: Colors.shadowColorAndroidDefault, flex: 1}}
       {...props}
     >
       <View style={styles.imageContainer}>
@@ -22,7 +28,7 @@ const CustomDrawer = props => {
           }}
         />
       </View>
-      <Text style={styles.peterText}>Peter Chanchlini</Text>
+      <Text style={styles.peterText}>Use Name</Text>
       <DrawerItemList {...props} />
       <View style={styles.footerStyle}>
         <Text style={styles.shopText}>Exclusive shopping app</Text>
@@ -66,6 +72,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   footerStyle: {
-    marginTop: 40,
+    marginTop: 50,
+    backgroundColor: Colors.cardColor,
+    height: 150,
   },
 });
