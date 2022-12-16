@@ -72,7 +72,9 @@ const LoginUi = ({navigation}) => {
         .signInWithEmailAndPassword(email, password)
         .then(() => {
           console.log('User signed');
-          navigation.navigate('HomeUi');
+          setTimeout(() => {
+            navigation.navigate('MyTab');
+          }, 2000);
         });
     } catch (error) {
       console.error(error);

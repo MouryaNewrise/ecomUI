@@ -5,6 +5,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
 import {fonts, Colors} from '../assets/Assets';
@@ -12,8 +13,11 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const width = Dimensions.get('window').width;
 const FirstScreen = ({navigation}) => {
+  setTimeout(() => {
+    navigation.navigate('MyTab');
+  }, 5000);
   return (
-    <View>
+    <ScrollView>
       <Image
         style={styles.imageURI}
         source={require('../assets/img/fashionGirl.jpg')}
@@ -46,7 +50,7 @@ const FirstScreen = ({navigation}) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

@@ -15,6 +15,8 @@ import auth from '@react-native-firebase/auth';
 import {firebase} from '@react-native-firebase/firestore';
 import WelcomeScreen from '../dashboard/WelcomeScreen';
 import ChatFirebase from '../dashboard/ChatFirebase';
+import FilterFunction from '../dashboard/FilterFunction';
+import PrimeUser from '../dashboard/PrimeUser';
 
 const Drawer = createDrawerNavigator();
 const user = firebase.auth().currentUser;
@@ -83,6 +85,16 @@ export default function MyDrawer() {
           component={ChatFirebase}
         />
       )}
+      <Drawer.Screen
+        // options={{headerShown: false}}
+        name="Take what you want"
+        component={FilterFunction}
+      />
+      {/* <Drawer.Screen
+        options={{headerShown: false}}
+        name="Services For Prime Users"
+        component={PrimeUser}
+      /> */}
       {user && (
         <Drawer.Screen
           options={{headerShown: false}}

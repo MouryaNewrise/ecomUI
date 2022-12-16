@@ -11,10 +11,10 @@ import {
   Image,
 } from 'react-native';
 import React, {useState} from 'react';
-import MyTab from '../navigation/MyTab';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {Colors, fonts} from '../assets/Assets';
+import Header from '../components/Layout/Header';
 
 const width = Dimensions.get('window').width;
 
@@ -65,6 +65,13 @@ const DATA = [
       'https://www.amazon.com/Hatching-Twitter-Story-Friendship-Betrayal-ebook/dp/B00CDUVSQ0',
   },
   {
+    title: 'Hatching Twitter',
+    image: 'https://m.media-amazon.com/images/I/51YUkI5ZQ-L.jpg',
+    author: 'Ashlee Vance',
+    url:
+      'https://www.amazon.com/Hatching-Twitter-Story-Friendship-Betrayal-ebook/dp/B00CDUVSQ0',
+  },
+  {
     title: 'How Google Works',
     image:
       'https://images-na.ssl-images-amazon.com/images/I/31Xc+yFta0L._SX327_BO1,204,203,200_.jpg',
@@ -92,25 +99,41 @@ const DATA = [
     url:
       'https://www.amazon.com/Sapiens-Humankind-Yuval-Noah-Harari-ebook/dp/B00ICN066A',
   },
+  {
+    title: 'Sapiens',
+    image: 'https://m.media-amazon.com/images/I/51Sn8PEXwcL.jpg',
+    author: 'Ashlee Vance',
+    url:
+      'https://www.amazon.com/Sapiens-Humankind-Yuval-Noah-Harari-ebook/dp/B00ICN066A',
+  },
 ];
-
+console.log('d', DATA.title);
 const WelcomeScreen = ({navigation}) => {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState('Ashlee Vance');
   const obj = Object.assign({}, DATA.shift());
   return (
     <View>
-      {/* <TextInput
-        style={{
-          padding: 10,
-          margin: 10,
-          backgroundColor: 'pink',
-          fontSize: 18,
+      {/* <Header />
+      <Text
+        onPress={() => {
+          search == 'Ashlee Vance'
+            ? DATA.filter(well => well.author == search)
+            : null;
         }}
-        placeholder="search item..."
-        placeholderTextColor={'deeppink'}
-        value={search}
-        onChangeText={e => setSearch(e)}
-      /> */}
+      >
+        {' '}
+        Ashlee Vance
+      </Text> */}
+      {/* <AntDesign
+          name="bars"
+          size={40}
+          color={'black'}
+          onPress={group => {
+            if (group.length > 0) {
+              return DATA.filter(group.author == 'Ashlee Vance');
+            }
+          }}
+        /> */}
       <SafeAreaView style={styles.container}>
         <FlatList
           data={DATA.filter(aim =>
@@ -127,8 +150,9 @@ const WelcomeScreen = ({navigation}) => {
                   alignItems: 'center',
                   marginHorizontal: 20,
                   width: '100%',
-                  borderWidth: 2,
+                  //   borderWidth: 2,
                   borderRadius: 10,
+                  //   height: 600,
                 }}
               >
                 <Image
@@ -142,8 +166,6 @@ const WelcomeScreen = ({navigation}) => {
           }}
         />
       </SafeAreaView>
-      <Text>iof</Text>
-      <MyTab />
     </View>
   );
 };

@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   footerStyle: {
-    marginTop: 50,
+    marginTop: 5,
     backgroundColor: Colors.cardColor,
     height: 150,
   },

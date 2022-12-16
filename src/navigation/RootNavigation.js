@@ -21,6 +21,7 @@ import ResentAddProduct from '../dashboard/ResentAddProduct';
 import ViewProduct from '../dashboard/ViewProduct';
 import Users from '../user/Users';
 import WelcomeScreen from '../dashboard/WelcomeScreen';
+import FilterFunction from '../dashboard/FilterFunction';
 
 const Stack = createNativeStackNavigator();
 
@@ -127,6 +128,11 @@ const RootNavigation = () => {
         <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="FilterFunction"
+          component={FilterFunction}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

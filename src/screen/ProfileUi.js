@@ -74,21 +74,6 @@ const ProfileUi = ({navigation}) => {
       });
   };
 
-  //   const uploadImageToServer = async () => {
-  //     try {
-  //       // path to existing file on filesystem
-  //       //   const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/userPhoto/`;
-  //       // uploads file
-  //       //   await reference.putFile(pathToFile);
-
-  //       const res = await storage()
-  //         .ref(`${utils.FilePath.PICTURES_DIRECTORY}`)
-  //         // .ref('/userPhoto/assets/img/fashionGirl.jpg')
-  //         .putFile(avatar1.uri);
-  //       console.log('res', res);
-  //     } catch (error) {}
-  //   };
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -137,17 +122,16 @@ const ProfileUi = ({navigation}) => {
         </View>
         <Entypo />
         {/* <View>
-          <TouchableOpacity style={{backgroundColor: 'deeppink'}}>
-            <Text style={{fontSize: 16}} onPress={() => uploadImageToServer()}>
-              upload image to server
-            </Text>
-          </TouchableOpacity>
-        </View> */}
+            <TouchableOpacity style={{backgroundColor: 'deeppink'}}>
+              <Text style={{fontSize: 16}} onPress={() => uploadImageToServer()}>
+                upload image to server
+              </Text>
+            </TouchableOpacity>
+          </View> */}
 
         <View style={{paddingHorizontal: 20}}>
           <Text style={{fontWeight: '700', fontSize: 16, color: 'deeppink'}}>
-            User Email:{user.email}
-            email
+            User: {user.email}
           </Text>
           <View style={{marginTop: 35}}>
             <Text style={styles.experience}>PRODUCT CATEGORY</Text>
@@ -263,7 +247,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   EditUserProfile: {
-    marginLeft: 350,
+    marginLeft: 330,
     backgroundColor: Colors.shadowColorAndroidDefault,
     height: 50,
     padding: 10,

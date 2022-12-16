@@ -9,8 +9,6 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
-  Button,
-  ActivityIndicator,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {Colors, fonts} from '../assets/Assets';
@@ -21,6 +19,9 @@ import {useSelector, useDispatch} from 'react-redux';
 import {fetchData} from '../redux/ProductSlice';
 import {addToFav, removeToFav} from '../redux/CartSlice';
 import {firebase} from '@react-native-firebase/firestore';
+import SimmerEffect from '../dashboard/SimmerEffect';
+import FilterFunction from '../dashboard/FilterFunction';
+
 const width = Dimensions.get('window').width;
 
 const allCategory = [
@@ -49,33 +50,91 @@ const allCategory = [
 
 const HomeUi = ({navigation}) => {
   const collection = useSelector(state => state.product.data);
-  const auth = useSelector(state => state.loginAuth);
   const dispatch = useDispatch();
   const [filter, setFilter] = useState('all');
   const [liked, setLiked] = useState([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
 
-  //   const searchFunction = () => {
-  //     collection.filter(post => {
-  //       if (search === '') {
-  //         console.log('post1', post);
-  //         setSearch(post);
-  //       } else if (post.title.toLowerCase().includes(search.toLowerCase())) {
-  //         console.log('post2', post);
-  //         setSearch(post);
-  //       }
-  //     });
-  //   };
-
   const user = firebase.auth().currentUser;
   if (user == 0) {
     console.log('User email: ', user.email);
     Alert.alert('user login');
   }
+
+  const HomeFlatListView = () => {
+    return (
+      <FlatList
+        data={
+          filter == 'all'
+            ? collection.filter(e => e.category == filter)
+            : collection
+        }
+        numColumns={2}
+        idExtractor={id => {
+          id.id;
+        }}
+        renderItem={({item, index}) => {
+          return (
+            <ScrollView style={styles.collectionView}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (user) {
+                    if (liked.includes(index)) {
+                      let unLiked = liked.filter(likeNum => likeNum !== index);
+                      dispatch(removeToFav(item));
+                      setLiked(unLiked);
+                    } else {
+                      dispatch(addToFav(item));
+
+                      setLiked([...liked, index]);
+                    }
+                  } else {
+                    Alert.alert('login first');
+                    navigation.navigate('RegisterUi');
+                  }
+                }}
+                style={styles.iconStyContainer}
+              >
+                <Text>
+                  <Ionicons
+                    name="heart-circle-sharp"
+                    size={35}
+                    color={liked.includes(index) ? 'red' : Colors.cardColor}
+                  />
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('DetailUi', {itemId: item.id});
+                }}
+                style={styles.spaceBetween}
+              >
+                <View style={styles.imageViewContainer}>
+                  <Image style={styles.imageView} source={{uri: item.image}} />
+                </View>
+              </TouchableOpacity>
+              <Text style={styles.categoryStyle}>{item.category}</Text>
+              <Text style={styles.titleStyle}>
+                {item.title == 25 ? item.title : item.title.slice(0, 20)}
+              </Text>
+              <Text style={styles.priceStyle}>₹ {item.price}</Text>
+            </ScrollView>
+          );
+        }}
+      />
+    );
+  };
+
   useEffect(() => {
-    dispatch(fetchData());
-  });
+    setLoading(true);
+    console.log('true', true);
+    if (collection) {
+      dispatch(fetchData());
+      setLoading(false);
+      console.log('false', false);
+    }
+  }, []);
   return (
     <>
       <View>
@@ -113,97 +172,31 @@ const HomeUi = ({navigation}) => {
           >
             All
           </Text>
-          {loading ? (
-            <Text>Loading ...</Text>
-          ) : (
-            <FlatList
-              data={allCategory}
-              idExtractor={id => {
-                id.id;
-              }}
-              renderItem={({item}) => {
-                return (
-                  <TouchableOpacity
-                    onPress={() => setFilter(item.key)}
-                    style={styles.itemView}
-                  >
-                    <Text style={styles.categoryView}>{item.category}</Text>
-                  </TouchableOpacity>
-                );
-              }}
-              horizontal={true}
-            />
-          )}
-        </View>
-        <Text style={styles.newCollection}>New Collection</Text>
-        <View style={styles.FlatListView}>
           <FlatList
-            data={
-              // filter == 'all'
-              //   ? collection
-              //   : collection.filter(e => e.category == filter)
-              collection?.filter(aim =>
-                aim?.title?.toLowerCase().includes(search.toLowerCase()),
-              )
-            }
-            numColumns={2}
+            data={allCategory}
             idExtractor={id => {
               id.id;
             }}
-            renderItem={({item, index}) => {
+            renderItem={({item}) => {
               return (
-                <ScrollView style={styles.collectionView}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      if (user) {
-                        if (liked.includes(index)) {
-                          let unLiked = liked.filter(
-                            likeNum => likeNum !== index,
-                          );
-                          dispatch(removeToFav(item));
-                          setLiked(unLiked);
-                        } else {
-                          dispatch(addToFav(item));
-
-                          setLiked([...liked, index]);
-                        }
-                      } else {
-                        Alert.alert('login first');
-                        navigation.navigate('RegisterUi');
-                      }
-                    }}
-                    style={styles.iconStyContainer}
-                  >
-                    <Text>
-                      <Ionicons
-                        name="heart-circle-sharp"
-                        size={35}
-                        color={liked.includes(index) ? 'red' : Colors.cardColor}
-                      />
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate('DetailUi', {itemId: item.id});
-                    }}
-                    style={styles.spaceBetween}
-                  >
-                    <View style={styles.imageViewContainer}>
-                      <Image
-                        style={styles.imageView}
-                        source={{uri: item.image}}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                  <Text style={styles.categoryStyle}>{item.category}</Text>
-                  <Text style={styles.titleStyle}>
-                    {item.title == 25 ? item.title : item.title.slice(0, 20)}
-                  </Text>
-                  <Text style={styles.priceStyle}>₹ {item.price}</Text>
-                </ScrollView>
+                <TouchableOpacity
+                  onPress={() => setFilter(item.key)}
+                  style={styles.itemView}
+                >
+                  <Text style={styles.categoryView}>{item.category}</Text>
+                </TouchableOpacity>
               );
             }}
+            horizontal={true}
           />
+        </View>
+
+        <Text style={styles.newCollection}>New Collection</Text>
+        <View style={styles.FlatListView}>
+          {/* {loading ? <SimmerEffect /> : <HomeFlatListView />} */}
+          {/* <SimmerEffect /> */}
+          {/* <FilterFunction /> */}
+          <HomeFlatListView />
         </View>
       </View>
     </>
@@ -213,6 +206,10 @@ const HomeUi = ({navigation}) => {
 export default HomeUi;
 
 const styles = StyleSheet.create({
+  lottie: {
+    width: 100,
+    height: 100,
+  },
   container: {
     marginHorizontal: 10,
   },
