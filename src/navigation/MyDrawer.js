@@ -17,6 +17,7 @@ import WelcomeScreen from '../dashboard/WelcomeScreen';
 import ChatFirebase from '../dashboard/ChatFirebase';
 import FilterFunction from '../dashboard/FilterFunction';
 import PrimeUser from '../dashboard/PrimeUser';
+import MyTab from './MyTab';
 
 const Drawer = createDrawerNavigator();
 const user = firebase.auth().currentUser;
@@ -51,12 +52,12 @@ export default function MyDrawer() {
       )}
       {user && (
         <Drawer.Screen
-          options={{headerShown: false}}
+          //   options={{headerShown: false}}
           name="Settings"
           component={SettingUi}
         />
       )}
-      {user && (
+      {/* {user && (
         <Drawer.Screen
           options={{headerShown: false}}
           name="Add Product"
@@ -69,18 +70,18 @@ export default function MyDrawer() {
           name="Resent Add Product"
           component={ResentAddProduct}
         />
-      )}
+      )} */}
 
       {user && (
         <Drawer.Screen
-          // options={{headerShown: false}}
+          //   options={{headerShown: false}}
           name="View Order"
           component={ViewOrder}
         />
       )}
       {user && (
         <Drawer.Screen
-          // options={{headerShown: false}}
+          //   options={{headerShown: false}}
           name="Chat Support"
           component={ChatFirebase}
         />
@@ -90,18 +91,26 @@ export default function MyDrawer() {
         name="Take what you want"
         component={FilterFunction}
       />
-      {/* <Drawer.Screen
-        options={{headerShown: false}}
-        name="Services For Prime Users"
-        component={PrimeUser}
-      /> */}
       {user && (
         <Drawer.Screen
-          options={{headerShown: false}}
+          //   options={{headerShown: false}}
+          name="Services For Prime Users"
+          component={PrimeUser}
+        />
+      )}
+
+      {user && (
+        <Drawer.Screen
+          //   options={{headerShown: false}}
           name="Logout"
           component={LogoutUi}
         />
       )}
+      <Drawer.Screen
+        // options={{headerShown: false}}
+        name="Home"
+        component={MyTab}
+      />
     </Drawer.Navigator>
   );
 }

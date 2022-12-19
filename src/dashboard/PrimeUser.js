@@ -1,14 +1,16 @@
+import React, {useEffect, useState} from 'react';
 import {
-  FlatList,
+  RefreshControl,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
+  FlatList,
+  Image,
   View,
-  RefreshControl,
+  TextInput,
 } from 'react-native';
-import React from 'react';
-import Header from '../components/Layout/Header';
-import {useState} from 'react';
+import {List} from 'react-native-paper';
 
 const POST = [
   {
@@ -720,40 +722,161 @@ const POST = [
       'cupiditate quo est a modi nesciunt soluta\nipsa voluptas error itaque dicta in\nautem qui minus magnam et distinctio eum\naccusamus ratione error aut',
   },
 ];
-const PrimeUser = () => {
-  const [refresh, setRefesh] = useState(false);
 
-  const pullMe = () => {
-    setRefesh(true);
-    setTimeout(() => {
-      setRefesh(false);
-    }, 15000);
+const Benifit = [
+  {
+    albumId: 1,
+    id: 1,
+    title: 'accusamus beatae ad facilis cum similique qui sunt',
+    url: 'https://via.placeholder.com/600/92c952',
+    thumbnailUrl: 'https://via.placeholder.com/150/92c952',
+  },
+  {
+    albumId: 1,
+    id: 2,
+    title: 'reprehenderit est deserunt velit ipsam',
+    url: 'https://via.placeholder.com/600/771796',
+    thumbnailUrl: 'https://via.placeholder.com/150/771796',
+  },
+  {
+    albumId: 1,
+    id: 3,
+    title: 'officia porro iure quia iusto qui ipsa ut modi',
+    url: 'https://via.placeholder.com/600/24f355',
+    thumbnailUrl: 'https://via.placeholder.com/150/24f355',
+  },
+  {
+    albumId: 1,
+    id: 4,
+    title: 'culpa odio esse rerum omnis laboriosam voluptate repudiandae',
+    url: 'https://via.placeholder.com/600/d32776',
+    thumbnailUrl: 'https://via.placeholder.com/150/d32776',
+  },
+  {
+    albumId: 1,
+    id: 5,
+    title: 'natus nisi omnis corporis facere molestiae rerum in',
+    url: 'https://via.placeholder.com/600/f66b97',
+    thumbnailUrl: 'https://via.placeholder.com/150/f66b97',
+  },
+  {
+    albumId: 1,
+    id: 6,
+    title: 'accusamus ea aliquid et amet sequi nemo',
+    url: 'https://via.placeholder.com/600/56a8c2',
+    thumbnailUrl: 'https://via.placeholder.com/150/56a8c2',
+  },
+];
+
+const wait = timeout => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+};
+
+const PrimeUser = () => {
+  const [refreshing, setRefreshing] = useState(false);
+  const [colorsList, setColorsList] = useState(POST);
+  const [list, setList] = useState();
+
+  const randomColor = () => {
+    const red = Math.floor(Math.random() * 256);
+    const green = Math.floor(Math.random() * 256);
+    const blue = Math.floor(Math.random() * 256);
+    const alpha = Math.floor(Math.random() * 256);
+    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
   };
+  const colorRotetion = Math.floor(Math.random() * 10000).toString(16);
+  console.log('colorRotetion', colorRotetion);
   const renderPost = ({item, index}) => {
     return (
-      <View>
-        <Text>{item.title}</Text>
+      <View
+        style={{
+          margin: 10,
+          height: 200,
+          //   backgroundColor: colorRotetion ? `#${list}` : list,
+          backgroundColor: Math.floor(Math.random() * 256),
+          width: '45%',
+          marginHorizontal: 10,
+        }}
+      >
+        <Text style={{padding: 10}}> {item.title}</Text>
       </View>
     );
   };
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+    console.log(colorRotetion);
+  }, []);
+
+  useEffect(() => {
+    const colorRotetion = Math.floor(Math.random() * 10000);
+    setList(colorRotetion);
+  }, [colorsList]);
+
   return (
-    <View>
-      <Header />
+    <SafeAreaView>
+      <Text
+        style={{
+          backgroundColor: list,
+          padding: 50,
+          margin: 50,
+          textAlign: 'center',
+        }}
+      >
+        Text
+      </Text>
+      <View style={styles.container}>
+        <FlatList
+          data={Benifit}
+          renderItem={({item, index}) => {
+            return (
+              <View key={index} style={{}}>
+                <Image
+                  style={{width: 80, height: 80, margin: 5, borderRadius: 100}}
+                  source={{uri: item.url}}
+                />
+              </View>
+            );
+          }}
+          horizontal={true}
+        />
+      </View>
+      <View>{/* <TextInput
+        placeholder=''
+        /> */}</View>
       <ScrollView
+        contentContainerStyle={styles.scrollView}
         refreshControl={
-          <RefreshControl refreshing={refresh} onRefesh={() => pullMe()} />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
         <FlatList
-          data={POST}
+          //   data={[...colorRotetion, colorsList]}
+          data={colorsList}
           renderItem={renderPost}
           keyExtractor={index => index.id}
+          refreshing={true}
+          //   horizontal={true}
+          numColumns={2}
         />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
-export default PrimeUser;
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#e5e5e5',
+    padding: 5,
+  },
+  scrollView: {
+    flex: 1,
+    // backgroundColor: 'pink',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 20,
+  },
+});
 
-const styles = StyleSheet.create({});
+export default PrimeUser;

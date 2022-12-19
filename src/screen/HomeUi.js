@@ -36,11 +36,11 @@ const allCategory = [
   {
     id: '3',
     category: 'Jewelry',
-    key: 'jewelery',
+    // key: 'jewelery',
   },
   {
     id: '4',
-    category: 'Games',
+    category: 'Electronics',
   },
   {
     id: '5',
@@ -62,69 +62,67 @@ const HomeUi = ({navigation}) => {
     Alert.alert('user login');
   }
 
-  const HomeFlatListView = () => {
-    return (
-      <FlatList
-        data={
-          filter == 'all'
-            ? collection.filter(e => e.category == filter)
-            : collection
-        }
-        numColumns={2}
-        idExtractor={id => {
-          id.id;
-        }}
-        renderItem={({item, index}) => {
-          return (
-            <ScrollView style={styles.collectionView}>
-              <TouchableOpacity
-                onPress={() => {
-                  if (user) {
-                    if (liked.includes(index)) {
-                      let unLiked = liked.filter(likeNum => likeNum !== index);
-                      dispatch(removeToFav(item));
-                      setLiked(unLiked);
-                    } else {
-                      dispatch(addToFav(item));
+  //   const HomeFlatListView = () => {
+  //     return (
+  //       <FlatList
+  //         data={collection.filter(filtrate =>
+  //           filtrate.title.toLowerCase().includes(search.toLowerCase()),
+  //         )}
+  //         numColumns={2}
+  //         idExtractor={id => {
+  //           id.id;
+  //         }}
+  //         renderItem={({item, index}) => {
+  //           return (
+  //             <ScrollView style={styles.collectionView}>
+  //               <TouchableOpacity
+  //                 onPress={() => {
+  //                   if (user) {
+  //                     if (liked.includes(index)) {
+  //                       let unLiked = liked.filter(likeNum => likeNum !== index);
+  //                       dispatch(removeToFav(item));
+  //                       setLiked(unLiked);
+  //                     } else {
+  //                       dispatch(addToFav(item));
 
-                      setLiked([...liked, index]);
-                    }
-                  } else {
-                    Alert.alert('login first');
-                    navigation.navigate('RegisterUi');
-                  }
-                }}
-                style={styles.iconStyContainer}
-              >
-                <Text>
-                  <Ionicons
-                    name="heart-circle-sharp"
-                    size={35}
-                    color={liked.includes(index) ? 'red' : Colors.cardColor}
-                  />
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('DetailUi', {itemId: item.id});
-                }}
-                style={styles.spaceBetween}
-              >
-                <View style={styles.imageViewContainer}>
-                  <Image style={styles.imageView} source={{uri: item.image}} />
-                </View>
-              </TouchableOpacity>
-              <Text style={styles.categoryStyle}>{item.category}</Text>
-              <Text style={styles.titleStyle}>
-                {item.title == 25 ? item.title : item.title.slice(0, 20)}
-              </Text>
-              <Text style={styles.priceStyle}>₹ {item.price}</Text>
-            </ScrollView>
-          );
-        }}
-      />
-    );
-  };
+  //                       setLiked([...liked, index]);
+  //                     }
+  //                   } else {
+  //                     Alert.alert('login first');
+  //                     navigation.navigate('RegisterUi');
+  //                   }
+  //                 }}
+  //                 style={styles.iconStyContainer}
+  //               >
+  //                 <Text>
+  //                   <Ionicons
+  //                     name="heart-circle-sharp"
+  //                     size={35}
+  //                     color={liked.includes(index) ? 'red' : Colors.cardColor}
+  //                   />
+  //                 </Text>
+  //               </TouchableOpacity>
+  //               <TouchableOpacity
+  //                 onPress={() => {
+  //                   navigation.navigate('DetailUi', {itemId: item.id});
+  //                 }}
+  //                 style={styles.spaceBetween}
+  //               >
+  //                 <View style={styles.imageViewContainer}>
+  //                   <Image style={styles.imageView} source={{uri: item.image}} />
+  //                 </View>
+  //               </TouchableOpacity>
+  //               <Text style={styles.categoryStyle}>{item.category}</Text>
+  //               <Text style={styles.titleStyle}>
+  //                 {item.title == 25 ? item.title : item.title.slice(0, 20)}
+  //               </Text>
+  //               <Text style={styles.priceStyle}>₹ {item.price}</Text>
+  //             </ScrollView>
+  //           );
+  //         }}
+  //       />
+  //     );
+  //   };
 
   useEffect(() => {
     setLoading(true);
@@ -193,10 +191,74 @@ const HomeUi = ({navigation}) => {
 
         <Text style={styles.newCollection}>New Collection</Text>
         <View style={styles.FlatListView}>
-          {/* {loading ? <SimmerEffect /> : <HomeFlatListView />} */}
-          {/* <SimmerEffect /> */}
-          {/* <FilterFunction /> */}
-          <HomeFlatListView />
+          {!loading ? (
+            <FlatList
+              data={collection.filter(filtrate =>
+                filtrate.title.toLowerCase().includes(search.toLowerCase()),
+              )}
+              numColumns={2}
+              idExtractor={id => {
+                id.id;
+              }}
+              renderItem={({item, index}) => {
+                return (
+                  <ScrollView style={styles.collectionView}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        if (user) {
+                          if (liked.includes(index)) {
+                            let unLiked = liked.filter(
+                              likeNum => likeNum !== index,
+                            );
+                            dispatch(removeToFav(item));
+                            setLiked(unLiked);
+                          } else {
+                            dispatch(addToFav(item));
+
+                            setLiked([...liked, index]);
+                          }
+                        } else {
+                          Alert.alert('login first');
+                          navigation.navigate('RegisterUi');
+                        }
+                      }}
+                      style={styles.iconStyContainer}
+                    >
+                      <Text>
+                        <Ionicons
+                          name="heart-circle-sharp"
+                          size={35}
+                          color={
+                            liked.includes(index) ? 'red' : Colors.cardColor
+                          }
+                        />
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate('DetailUi', {itemId: item.id});
+                      }}
+                      style={styles.spaceBetween}
+                    >
+                      <View style={styles.imageViewContainer}>
+                        <Image
+                          style={styles.imageView}
+                          source={{uri: item.image}}
+                        />
+                      </View>
+                    </TouchableOpacity>
+                    <Text style={styles.categoryStyle}>{item.category}</Text>
+                    <Text style={styles.titleStyle}>
+                      {item.title == 25 ? item.title : item.title.slice(0, 20)}
+                    </Text>
+                    <Text style={styles.priceStyle}>₹ {item.price}</Text>
+                  </ScrollView>
+                );
+              }}
+            />
+          ) : (
+            <SimmerEffect />
+          )}
         </View>
       </View>
     </>

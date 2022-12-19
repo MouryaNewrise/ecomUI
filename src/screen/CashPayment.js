@@ -10,8 +10,10 @@ import {
 import React, {useState} from 'react';
 import {Colors} from '../assets/Assets';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useSelector} from 'react-redux';
 
 const CashPayment = ({modalVisible, setModalVisible}) => {
+  const total = useSelector(state => state.wishlist.cartTotalAmount);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
@@ -33,6 +35,10 @@ const CashPayment = ({modalVisible, setModalVisible}) => {
           color={Colors.darkPlaceHoldColor}
         />
       </View>
+      <Text style={{padding: 10, color: 'black'}}>
+        {' '}
+        Total payment : {total}
+      </Text>
       <TextInput
         placeholderTextColor={Colors.darkPrimary}
         style={styles.inputStyle}

@@ -24,7 +24,7 @@ const CustomDrawer = props => {
           style={styles.imageStyle}
           source={{
             uri:
-              'https://imageio.forbes.com/specials-images/imageserve/5a836fff31358e4955ad6549/0x0.jpg?format=jpg',
+              'https://www.nicepng.com/png/detail/8-88585_women-fashion-png-example-of-magazine-cover.png',
           }}
         />
       </View>

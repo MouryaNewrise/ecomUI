@@ -22,6 +22,8 @@ import ViewProduct from '../dashboard/ViewProduct';
 import Users from '../user/Users';
 import WelcomeScreen from '../dashboard/WelcomeScreen';
 import FilterFunction from '../dashboard/FilterFunction';
+import UpiPayment from '../components/Layout/UpiPayment';
+import NatBanking from '../components/Layout/NatBanking';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +33,16 @@ const RootNavigation = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="FirstScreen">
         <Stack.Screen
+          name="MyDrawer"
+          component={MyDrawer}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="MyTab"
+          component={MyTab}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="FirstScreen"
           component={FirstScreen}
           options={{headerShown: false}}
@@ -38,11 +50,6 @@ const RootNavigation = () => {
         <Stack.Screen
           name={`DetailUi`}
           component={DetailUi}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="MyTab"
-          component={MyTab}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -55,11 +62,7 @@ const RootNavigation = () => {
           component={HomeUi}
           options={{headerShown: false}}
         />
-        <Stack.Screen
-          name="MyDrawer"
-          component={MyDrawer}
-          options={{headerShown: false}}
-        />
+
         <Stack.Screen
           name="MakePayment"
           component={MakePayment}
@@ -128,6 +131,16 @@ const RootNavigation = () => {
         <Stack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="UpiPayment"
+          component={UpiPayment}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="NatBanking"
+          component={NatBanking}
           options={{headerShown: false}}
         />
         <Stack.Screen

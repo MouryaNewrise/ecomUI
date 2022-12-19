@@ -7,6 +7,7 @@ import {
   Modal,
   Alert,
   Button,
+  Linking,
 } from 'react-native';
 import React, {useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -17,14 +18,21 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import CashPayment from './CashPayment';
 import {useSelector} from 'react-redux';
+import NatBanking from '../components/Layout/NatBanking';
+import {useEffect} from 'react';
 
 const MakePayment = ({navigation}) => {
   //   console.log('userCredential', userCredential);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const counter = useSelector(state => state.product.value);
+  const total = useSelector(state => state.wishlist.cartTotalAmount);
+  const [couponPop, setCouponPop] = useState(false);
 
-  //   console.log('counter', counter);
+  useEffect(() => {
+    setTimeout(() => {
+      setCouponPop(true);
+    }, 2000);
+  }, []);
   return (
     <>
       <View style={styles.mainContainer}>
@@ -98,10 +106,10 @@ const MakePayment = ({navigation}) => {
         <View style={styles.rowDirection}>
           <View style={{}}>
             <Text style={styles.DateStyle}>You have to pay</Text>
-            <Text style={styles.textStyle}> ₹ 562</Text>
+            <Text style={styles.textStyle}> ₹ {total}</Text>
           </View>
           <View>
-            <Text>
+            <Text onPress={e => setColor(e)}>
               <Ionicons
                 name="md-arrow-redo-sharp"
                 size={40}
@@ -112,14 +120,20 @@ const MakePayment = ({navigation}) => {
         </View>
         <View>
           <TouchableOpacity style={styles.upiMethod}>
-            <Text style={styles.paymentMethod}>
+            <Text
+              style={styles.paymentMethod}
+              onPress={() => navigation.navigate('UpiPayment')}
+            >
               {''}
               <FontAwesome name={'gratipay'} color={Colors.white} size={30} />
               Use UPI Payment Method
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.upiMethod}>
-            <Text style={styles.paymentMethod}>
+            <Text
+              style={styles.paymentMethod}
+              onPress={() => Linking.openURL(`https://www.onlinesbi.sbi/`)}
+            >
               {''}
               <FontAwesome
                 name={'internet-explorer'}
@@ -130,7 +144,7 @@ const MakePayment = ({navigation}) => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => setModalVisible(true)}
+            onPress={() => setModalVisible(true, total)}
             style={styles.upiMethod}
           >
             <Text style={styles.paymentMethod}>
@@ -161,6 +175,22 @@ const MakePayment = ({navigation}) => {
               modalVisible={modalVisible}
               setModalVisible={setModalVisible}
             />
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={couponPop}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setCouponPop(!couponPop);
+        }}
+      >
+        <View style={styles.modalView}>
+          <View style={styles.componentView}>
+            <NatBanking couponPop={couponPop} setCouponPop={setCouponPop} />
           </View>
         </View>
       </Modal>

@@ -81,7 +81,9 @@ const ProfileUi = ({navigation}) => {
     <View style={{flex: 1}}>
       <View style={styles.mainContainer}>
         <Text
-          onPress={() => navigation.navigate('Users', getData)}
+          onPress={() => navigation.navigate('FilterFunction')}
+          //   onPress={() => navigation.navigate('Users', getData)}
+
           style={styles.EditUserProfile}
         >
           <AntDesign name="edit" color="white" size={30} />

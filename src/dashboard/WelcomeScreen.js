@@ -9,12 +9,15 @@ import {
   StatusBar,
   TextInput,
   Image,
+  ScrollView,
+  RefreshControl,
 } from 'react-native';
 import React, {useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import {Colors, fonts} from '../assets/Assets';
 import Header from '../components/Layout/Header';
+import PrimeUser from './PrimeUser';
 
 const width = Dimensions.get('window').width;
 
@@ -107,40 +110,35 @@ const DATA = [
       'https://www.amazon.com/Sapiens-Humankind-Yuval-Noah-Harari-ebook/dp/B00ICN066A',
   },
 ];
+
 console.log('d', DATA.title);
 const WelcomeScreen = ({navigation}) => {
   const [search, setSearch] = useState('Ashlee Vance');
+  const [refresh, setRefesh] = useState(false);
   const obj = Object.assign({}, DATA.shift());
+
+  const pullMe = () => {
+    setRefesh(true);
+    setTimeout(() => {
+      setRefesh(false);
+    }, 15000);
+  };
   return (
     <View>
-      {/* <Header />
-      <Text
-        onPress={() => {
-          search == 'Ashlee Vance'
-            ? DATA.filter(well => well.author == search)
-            : null;
-        }}
+      <PrimeUser />
+      {/* <ScrollView
+        style={styles.container}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefesh={() => pullMe()} />
+        }
       >
-        {' '}
-        Ashlee Vance
-      </Text> */}
-      {/* <AntDesign
-          name="bars"
-          size={40}
-          color={'black'}
-          onPress={group => {
-            if (group.length > 0) {
-              return DATA.filter(group.author == 'Ashlee Vance');
-            }
-          }}
-        /> */}
-      <SafeAreaView style={styles.container}>
         <FlatList
           data={DATA.filter(aim =>
             aim?.author?.toLowerCase().includes(search.toLowerCase()),
           )}
           keyExtractor={item => item.id}
           horizontal={true}
+          refreshing={true}
           renderItem={({item}, index) => {
             return (
               <View
@@ -165,7 +163,7 @@ const WelcomeScreen = ({navigation}) => {
             );
           }}
         />
-      </SafeAreaView>
+      </ScrollView> */}
     </View>
   );
 };

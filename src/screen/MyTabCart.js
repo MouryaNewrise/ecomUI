@@ -50,13 +50,6 @@ const MyTabCart = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      {/* <ImageBackground>
-        <Image
-          style={styles.wishList}
-          source={{
-            uri: 'https://cdn-icons-png.flaticon.com/512/3163/3163175.png',
-          }}
-        /> */}
       <ScrollView style={{marginBottom: 100}}>
         <View>
           {tabCart.map((item, index) => {
