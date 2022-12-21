@@ -15,10 +15,7 @@ const CustomDrawer = props => {
     console.log('user drawer', user.email);
   }
   return (
-    <DrawerContentScrollView
-      style={{backgroundColor: Colors.shadowColorAndroidDefault, flex: 1}}
-      {...props}
-    >
+    <View style={{flex: 1, backgroundColor: Colors.shadowColorAndroidDefault}}>
       <View style={styles.imageContainer}>
         <Image
           style={styles.imageStyle}
@@ -29,12 +26,15 @@ const CustomDrawer = props => {
         />
       </View>
       <Text style={styles.peterText}>Use Name</Text>
-      <DrawerItemList {...props} />
+      <DrawerContentScrollView {...props}>
+        <DrawerItemList {...props} />
+      </DrawerContentScrollView>
+
       <View style={styles.footerStyle}>
         <Text style={styles.shopText}>Exclusive shopping app</Text>
-        <Text style={{color: Colors.black, marginLeft: 10}}>2022</Text>
+        <Text style={{color: Colors.black, marginLeft: 10}}>2022 - 23</Text>
       </View>
-    </DrawerContentScrollView>
+    </View>
   );
 };
 
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 100,
     margin: 10,
+    resizeMode: 'cover',
   },
   peterText: {
     textAlign: 'center',
@@ -72,8 +73,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   footerStyle: {
-    marginTop: 5,
     backgroundColor: Colors.cardColor,
-    height: 150,
+    height: 70,
+    position: 'relative',
+    width: '100%',
+    top: 100,
+    flex: 1,
   },
 });

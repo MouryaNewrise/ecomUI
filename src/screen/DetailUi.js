@@ -16,6 +16,7 @@ import FontAwesome from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
 import {addToCartMy} from '../redux/AddToCartSlice';
 import {firebase} from '@react-native-firebase/firestore';
+import {SharedElement} from 'react-navigation-shared-element';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -54,9 +55,9 @@ const DetailUi = props => {
           />
         </TouchableOpacity>
         <Text style={styles.newCollection}>Product Details</Text>
-        <View style={styles.imageViewContainer}>
+        <SharedElement id={'image'} style={styles.imageViewContainer}>
           <Image style={styles.imageView} source={{uri: data.image}} />
-        </View>
+        </SharedElement>
         <View style={{width: '100%', height: '40%', padding: 10}}>
           <ScrollView>
             <Text style={[styles.titleStyle, styles.category]}>
@@ -122,6 +123,9 @@ const DetailUi = props => {
   );
 };
 
+DetailUi.sharedElements = (route, otherRoute, showing) => [
+  {id: 'image', animation: 'slide'},
+];
 export default DetailUi;
 
 const styles = StyleSheet.create({
@@ -179,6 +183,7 @@ const styles = StyleSheet.create({
   imageView: {
     width: '50%',
     height: height / 2 - 108,
+    resizeMode: 'contain',
   },
   collectionView: {
     paddingVertical: 10,

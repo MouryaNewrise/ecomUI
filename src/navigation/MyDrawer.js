@@ -106,11 +106,11 @@ export default function MyDrawer() {
           component={LogoutUi}
         />
       )}
-      <Drawer.Screen
+      {/* <Drawer.Screen
         // options={{headerShown: false}}
         name="Home"
-        component={MyTab}
-      />
+        component={HomeUi}
+      /> */}
     </Drawer.Navigator>
   );
 }

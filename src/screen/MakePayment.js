@@ -31,7 +31,7 @@ const MakePayment = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
       setCouponPop(true);
-    }, 2000);
+    }, 1000);
   }, []);
   return (
     <>

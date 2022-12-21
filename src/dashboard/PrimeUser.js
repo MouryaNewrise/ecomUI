@@ -10,7 +10,7 @@ import {
   View,
   TextInput,
 } from 'react-native';
-import {List} from 'react-native-paper';
+import {SharedElement} from 'react-navigation-shared-element';
 
 const POST = [
   {
@@ -793,9 +793,10 @@ const PrimeUser = () => {
           margin: 10,
           height: 200,
           //   backgroundColor: colorRotetion ? `#${list}` : list,
-          backgroundColor: Math.floor(Math.random() * 256),
+          backgroundColor: randomColor(),
           width: '45%',
           marginHorizontal: 10,
+          borderRadius: 15,
         }}
       >
         <Text style={{padding: 10}}> {item.title}</Text>

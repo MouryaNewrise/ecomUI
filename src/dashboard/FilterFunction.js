@@ -338,6 +338,7 @@ const styles = StyleSheet.create({
     width: width / 3,
     height: 150,
     margin: 24,
+    resizeMode: 'contain',
   },
   collectionView: {
     paddingVertical: 10,

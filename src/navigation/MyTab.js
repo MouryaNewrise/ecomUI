@@ -13,6 +13,7 @@ import {useSelector} from 'react-redux';
 import MyDrawer from './MyDrawer';
 import auth from '@react-native-firebase/auth';
 import {firebase} from '@react-native-firebase/database';
+import {color} from 'react-native-reanimated';
 
 const Tab = createBottomTabNavigator();
 
@@ -30,13 +31,21 @@ const MyTab = () => {
       initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: Colors.black,
+        tabBarShowLabel: false,
+        tabBarActiveBackgroundColor: {},
+        // tabBarInactiveBackgroundColor: 'blue',
+        // tabBarIconStyle: {
+        //   borderWidth: 2,
+        //   width: 50,
+        //   borderRadius: 100,
+        //   backgroundColor: 'cyan',
+        // },
       }}
     >
       <Tab.Screen
         name="Home"
         component={HomeUi}
         options={{
-          tabBarLabel: 'Home',
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),

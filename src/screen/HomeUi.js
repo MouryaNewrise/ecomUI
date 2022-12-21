@@ -21,6 +21,7 @@ import {addToFav, removeToFav} from '../redux/CartSlice';
 import {firebase} from '@react-native-firebase/firestore';
 import SimmerEffect from '../dashboard/SimmerEffect';
 import FilterFunction from '../dashboard/FilterFunction';
+import {SharedElement} from 'react-navigation-shared-element';
 
 const width = Dimensions.get('window').width;
 
@@ -61,68 +62,6 @@ const HomeUi = ({navigation}) => {
     console.log('User email: ', user.email);
     Alert.alert('user login');
   }
-
-  //   const HomeFlatListView = () => {
-  //     return (
-  //       <FlatList
-  //         data={collection.filter(filtrate =>
-  //           filtrate.title.toLowerCase().includes(search.toLowerCase()),
-  //         )}
-  //         numColumns={2}
-  //         idExtractor={id => {
-  //           id.id;
-  //         }}
-  //         renderItem={({item, index}) => {
-  //           return (
-  //             <ScrollView style={styles.collectionView}>
-  //               <TouchableOpacity
-  //                 onPress={() => {
-  //                   if (user) {
-  //                     if (liked.includes(index)) {
-  //                       let unLiked = liked.filter(likeNum => likeNum !== index);
-  //                       dispatch(removeToFav(item));
-  //                       setLiked(unLiked);
-  //                     } else {
-  //                       dispatch(addToFav(item));
-
-  //                       setLiked([...liked, index]);
-  //                     }
-  //                   } else {
-  //                     Alert.alert('login first');
-  //                     navigation.navigate('RegisterUi');
-  //                   }
-  //                 }}
-  //                 style={styles.iconStyContainer}
-  //               >
-  //                 <Text>
-  //                   <Ionicons
-  //                     name="heart-circle-sharp"
-  //                     size={35}
-  //                     color={liked.includes(index) ? 'red' : Colors.cardColor}
-  //                   />
-  //                 </Text>
-  //               </TouchableOpacity>
-  //               <TouchableOpacity
-  //                 onPress={() => {
-  //                   navigation.navigate('DetailUi', {itemId: item.id});
-  //                 }}
-  //                 style={styles.spaceBetween}
-  //               >
-  //                 <View style={styles.imageViewContainer}>
-  //                   <Image style={styles.imageView} source={{uri: item.image}} />
-  //                 </View>
-  //               </TouchableOpacity>
-  //               <Text style={styles.categoryStyle}>{item.category}</Text>
-  //               <Text style={styles.titleStyle}>
-  //                 {item.title == 25 ? item.title : item.title.slice(0, 20)}
-  //               </Text>
-  //               <Text style={styles.priceStyle}>₹ {item.price}</Text>
-  //             </ScrollView>
-  //           );
-  //         }}
-  //       />
-  //     );
-  //   };
 
   useEffect(() => {
     setLoading(true);
@@ -240,12 +179,15 @@ const HomeUi = ({navigation}) => {
                       }}
                       style={styles.spaceBetween}
                     >
-                      <View style={styles.imageViewContainer}>
+                      <SharedElement
+                        id={'image'}
+                        style={styles.imageViewContainer}
+                      >
                         <Image
                           style={styles.imageView}
                           source={{uri: item.image}}
                         />
-                      </View>
+                      </SharedElement>
                     </TouchableOpacity>
                     <Text style={styles.categoryStyle}>{item.category}</Text>
                     <Text style={styles.titleStyle}>
@@ -309,6 +251,7 @@ const styles = StyleSheet.create({
     width: width / 3,
     height: 150,
     margin: 24,
+    resizeMode: 'contain',
   },
   collectionView: {
     paddingVertical: 10,
