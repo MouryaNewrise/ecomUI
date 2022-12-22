@@ -8,6 +8,7 @@ import {
   Alert,
   Button,
   Linking,
+  ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -34,7 +35,7 @@ const MakePayment = ({navigation}) => {
     }, 1000);
   }, []);
   return (
-    <>
+    <ScrollView>
       <View style={styles.mainContainer}>
         <View style={styles.rowDirection}>
           <Text style={styles.newCollection}>MakePayment</Text>
@@ -194,7 +195,7 @@ const MakePayment = ({navigation}) => {
           </View>
         </View>
       </Modal>
-    </>
+    </ScrollView>
   );
 };
 
@@ -216,6 +217,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     margin: 10,
     marginVertical: 10,
+    height: '100%',
   },
   textStyle: {
     fontFamily: fonts.regular,

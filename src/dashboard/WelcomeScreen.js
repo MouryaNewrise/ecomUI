@@ -125,8 +125,8 @@ const WelcomeScreen = ({navigation}) => {
   };
   return (
     <View>
-      <PrimeUser />
-      {/* <ScrollView
+      {/* <PrimeUser /> */}
+      <ScrollView
         style={styles.container}
         refreshControl={
           <RefreshControl refreshing={refresh} onRefesh={() => pullMe()} />
@@ -163,7 +163,7 @@ const WelcomeScreen = ({navigation}) => {
             );
           }}
         />
-      </ScrollView> */}
+      </ScrollView>
     </View>
   );
 };

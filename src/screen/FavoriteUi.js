@@ -44,7 +44,7 @@ const FavoriteUi = props => {
           }}
         />
 
-        <ScrollView style={{marginBottom: 150}}>
+        <ScrollView style={{marginBottom: 50}}>
           {FavData.filter(e => e.category.toUpperCase().includes(search)).map(
             (data, index) => {
               return (
@@ -102,8 +102,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginHorizontal: 20,
     height: 120,
+    resizeMode: 'contain',
   },
-  imageStyle: {width: 100, height: 100, borderRadius: 100},
+  imageStyle: {
+    width: 100,
+    height: 100,
+    borderRadius: 100,
+    resizeMode: 'contain',
+  },
   dataView: {width: '50%', paddingVertical: 10},
   titleStyle: {fontFamily: fonts.semiBold, color: Colors.black},
   desStyle: {fontFamily: fonts.medium, color: Colors.lightBlack},
@@ -125,10 +131,10 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   wishList: {
-    width: 350,
+    width: '100%',
     height: 190,
     opacity: 4,
-    margin: 20,
+    // margin: 20,
     marginTop: 135,
     opacity: 0.2,
     position: 'absolute',

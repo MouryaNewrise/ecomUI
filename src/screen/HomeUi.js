@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
     zIndex: 2,
     position: 'absolute',
     padding: 3,
-    marginLeft: 135,
+    marginLeft: 120,
   },
   titleStyle: {
     fontFamily: fonts.regular,

@@ -50,7 +50,7 @@ const MyTabCart = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={{marginBottom: 100}}>
+      <ScrollView style={{marginBottom: 60}}>
         <View>
           {tabCart.map((item, index) => {
             return (
@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
     // borderTopLeftRadius: 20,
     // borderBottomRightRadius: 20,
     borderRadius: 100,
+    resizeMode: 'contain',
   },
   itemView: {width: '50%', padding: 10},
   titleStyle: {
@@ -221,14 +222,14 @@ const styles = StyleSheet.create({
   paymentContainer: {
     flexDirection: 'row',
     backgroundColor: Colors.backgroundGray,
-    height: 100,
+    // height: 100,
     width: '100%',
     justifyContent: 'space-between',
     padding: 25,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,
-    position: 'absolute',
-    marginTop: 570,
+    // position: 'absolute',
+    // marginTop: 570,
   },
   totalStyle: {fontFamily: fonts.bold, fontSize: 16, fontWeight: '700'},
   makePayment: {

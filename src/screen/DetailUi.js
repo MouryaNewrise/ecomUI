@@ -44,7 +44,7 @@ const DetailUi = props => {
   }, []);
 
   return (
-    <>
+    <ScrollView>
       <View style={styles.container}>
         <TouchableOpacity style={styles.iconStyContainer}>
           <AntDesign
@@ -119,7 +119,7 @@ const DetailUi = props => {
           <Text style={styles.addCartText}>Add to Cart</Text>
         </TouchableOpacity>
       </View>
-    </>
+    </ScrollView>
   );
 };
 

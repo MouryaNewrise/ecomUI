@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingHorizontal: 30,
     position: 'absolute',
-    marginTop: 120,
+    marginTop: 100,
     marginLeft: 10,
   },
   userText: {
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textTransform: 'capitalize',
   },
-  roTextStyle: {flexDirection: 'row', paddingVertical: 30},
+  roTextStyle: {flexDirection: 'row', paddingVertical: 20},
   experience: {
     fontFamily: fonts.mediumItalic,
     color: Colors.darkPrimary,
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   EditUserProfile: {
-    marginLeft: 330,
+    marginLeft: 290,
     backgroundColor: Colors.shadowColorAndroidDefault,
     height: 50,
     padding: 10,

@@ -794,8 +794,8 @@ const PrimeUser = () => {
           height: 200,
           //   backgroundColor: colorRotetion ? `#${list}` : list,
           backgroundColor: randomColor(),
-          width: '45%',
-          marginHorizontal: 10,
+          width: '44%',
+          //   marginHorizontal: 10,
           borderRadius: 15,
         }}
       >

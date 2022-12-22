@@ -26,13 +26,15 @@ const CustomDrawer = props => {
         />
       </View>
       <Text style={styles.peterText}>Use Name</Text>
-      <DrawerContentScrollView {...props}>
-        <DrawerItemList {...props} />
-      </DrawerContentScrollView>
+      <View style={{flex: 1}}>
+        <DrawerContentScrollView {...props}>
+          <DrawerItemList {...props} />
+        </DrawerContentScrollView>
 
-      <View style={styles.footerStyle}>
-        <Text style={styles.shopText}>Exclusive shopping app</Text>
-        <Text style={{color: Colors.black, marginLeft: 10}}>2022 - 23</Text>
+        <View style={{backgroundColor: Colors.cardColor}}>
+          <Text style={styles.shopText}>Exclusive shopping app</Text>
+          <Text style={{color: Colors.black, marginLeft: 10}}>2022 - 23</Text>
+        </View>
       </View>
     </View>
   );
@@ -74,10 +76,9 @@ const styles = StyleSheet.create({
   },
   footerStyle: {
     backgroundColor: Colors.cardColor,
-    height: 70,
-    position: 'relative',
+    height: 0,
+    position: 'absolute',
     width: '100%',
     top: 100,
-    flex: 1,
   },
 });
