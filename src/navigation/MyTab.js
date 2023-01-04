@@ -14,6 +14,7 @@ import MyDrawer from './MyDrawer';
 import auth from '@react-native-firebase/auth';
 import {firebase} from '@react-native-firebase/database';
 import {color} from 'react-native-reanimated';
+import RootNavigation from './RootNavigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -45,6 +46,16 @@ const MyTab = () => {
       <Tab.Screen
         name="Home"
         component={HomeUi}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="MyStack"
+        component={RootNavigation}
         options={{
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
